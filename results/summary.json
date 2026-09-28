@@ -1,0 +1,17 @@
+{
+    "best_model": "Tuned XGBoost",
+    "best_params": {
+        "subsample": 0.9,
+        "n_estimators": 200,
+        "max_depth": 6,
+        "learning_rate": 0.12,
+        "colsample_bytree": 0.8
+    },
+    "metrics": {
+        "Accuracy": 0.72645,
+        "Precision": 0.7042494408630443,
+        "Recall": 0.6241837686567164,
+        "F1-Score": 0.6618037955121469,
+        "ROC-AUC": 0.7968709376241168
+    }
+}
