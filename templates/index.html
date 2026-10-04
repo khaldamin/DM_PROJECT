@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupid AI - Relationship Matchmaking & Compatibility Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo-container">
+                <i class="fa-solid fa-heart-pulse logo-icon"></i>
+                <h1 class="logo-text">Cupid <span>AI</span></h1>
+            </div>
+            <p class="subtitle">Advanced Machine Learning & Data Mining for Relationship Compatibility Prediction</p>
+            <div class="header-badges">
+                <span class="badge"><i class="fa-solid fa-brain"></i> XGBoost Powered</span>
+                <span class="badge"><i class="fa-solid fa-chart-line"></i> Big 5 Trait Analytics</span>
+                <span class="badge"><i class="fa-solid fa-shield-heart"></i> 100k Pairs Trained</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Quick Preset Selectors -->
+            <section class="presets-section glass-card">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Match Presets</h3>
+                <div class="preset-buttons">
+                    <button type="button" class="btn-preset" onclick="loadPreset('perfect')">
+                        <i class="fa-solid fa-gem"></i> Perfect Harmony
+                    </button>
+                    <button type="button" class="btn-preset" onclick="loadPreset('balanced')">
+                        <i class="fa-solid fa-scale-balanced"></i> Balanced Duo
+                    </button>
+                    <button type="button" class="btn-preset" onclick="loadPreset('opposites')">
+                        <i class="fa-solid fa-yin-yang"></i> Opposites Attract
+                    </button>
+                    <button type="button" class="btn-preset" onclick="loadPreset('clash')">
+                        <i class="fa-solid fa-fire-flame-curved"></i> High Friction
+                    </button>
+                </div>
+            </section>
+
+            <!-- Profiles Form Grid -->
+            <form id="compatibilityForm" onsubmit="event.preventDefault(); predictCompatibility();">
+                <div class="profiles-grid">
+                    <!-- Partner A Card -->
+                    <div class="glass-card profile-card partner-a">
+                        <div class="card-header">
+                            <div class="avatar-icon"><i class="fa-solid fa-user-large"></i></div>
+                            <h2>Partner A (You)</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-cake-candles"></i> Age</label>
+                            <input type="number" id="a_age" min="18" max="80" value="28" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-graduation-cap"></i> Education Level</label>
+                                <select id="a_education">
+                                    <option value="1">High School (1)</option>
+                                    <option value="2">Bachelor (2)</option>
+                                    <option value="3" selected>Master (3)</option>
+                                    <option value="4">Doctorate (4)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-location-dot"></i> Location</label>
+                                <select id="a_location">
+                                    <option value="Urban" selected>Urban</option>
+                                    <option value="Suburban">Suburban</option>
+                                    <option value="Rural">Rural</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-briefcase"></i> Career Field</label>
+                                <select id="a_career_field">
+                                    <option value="Tech" selected>Tech</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Creative Arts">Creative Arts</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Law">Law</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Entrepreneurship">Entrepreneurship</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-heart"></i> Love Language</label>
+                                <select id="a_love_language">
+                                    <option value="Quality Time" selected>Quality Time</option>
+                                    <option value="Words of Affirmation">Words of Affirmation</option>
+                                    <option value="Physical Touch">Physical Touch</option>
+                                    <option value="Acts of Service">Acts of Service</option>
+                                    <option value="Receiving Gifts">Receiving Gifts</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Sliders -->
+                        <div class="traits-section">
+                            <h4>Personality & Behavioral Traits (1-10)</h4>
+                            
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Openness to Experience</span><strong id="val_a_openness">7.5</strong></div>
+                                <input type="range" id="a_openness" min="1" max="10" step="0.5" value="7.5" oninput="updateVal('a_openness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Extraversion</span><strong id="val_a_extraversion">6.0</strong></div>
+                                <input type="range" id="a_extraversion" min="1" max="10" step="0.5" value="6.0" oninput="updateVal('a_extraversion')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Agreeableness</span><strong id="val_a_agreeableness">8.0</strong></div>
+                                <input type="range" id="a_agreeableness" min="1" max="10" step="0.5" value="8.0" oninput="updateVal('a_agreeableness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Conscientiousness</span><strong id="val_a_conscientiousness">7.0</strong></div>
+                                <input type="range" id="a_conscientiousness" min="1" max="10" step="0.5" value="7.0" oninput="updateVal('a_conscientiousness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Career Ambition</span><strong id="val_a_career_ambition">8.0</strong></div>
+                                <input type="range" id="a_career_ambition" min="1" max="10" step="0.5" value="8.0" oninput="updateVal('a_career_ambition')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Chronotype (Early Bird 1 -> Night Owl 10)</span><strong id="val_a_chronotype">5.0</strong></div>
+                                <input type="range" id="a_chronotype" min="1" max="10" step="0.5" value="5.0" oninput="updateVal('a_chronotype')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Spontaneity</span><strong id="val_a_spontaneity">6.5</strong></div>
+                                <input type="range" id="a_spontaneity" min="1" max="10" step="0.5" value="6.5" oninput="updateVal('a_spontaneity')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Emotional Expressiveness</span><strong id="val_a_emotional_expressiveness">7.0</strong></div>
+                                <input type="range" id="a_emotional_expressiveness" min="1" max="10" step="0.5" value="7.0" oninput="updateVal('a_emotional_expressiveness')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Partner B Card -->
+                    <div class="glass-card profile-card partner-b">
+                        <div class="card-header">
+                            <div class="avatar-icon partner-b-icon"><i class="fa-solid fa-heart"></i></div>
+                            <h2>Partner B (Match)</h2>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-cake-candles"></i> Age</label>
+                            <input type="number" id="b_age" min="18" max="80" value="27" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-graduation-cap"></i> Education Level</label>
+                                <select id="b_education">
+                                    <option value="1">High School (1)</option>
+                                    <option value="2">Bachelor (2)</option>
+                                    <option value="3" selected>Master (3)</option>
+                                    <option value="4">Doctorate (4)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-location-dot"></i> Location</label>
+                                <select id="b_location">
+                                    <option value="Urban" selected>Urban</option>
+                                    <option value="Suburban">Suburban</option>
+                                    <option value="Rural">Rural</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-briefcase"></i> Career Field</label>
+                                <select id="b_career_field">
+                                    <option value="Tech">Tech</option>
+                                    <option value="Healthcare" selected>Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Creative Arts">Creative Arts</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Law">Law</option>
+                                    <option value="Science">Science</option>
+                                    <option value="Entrepreneurship">Entrepreneurship</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-heart"></i> Love Language</label>
+                                <select id="b_love_language">
+                                    <option value="Quality Time" selected>Quality Time</option>
+                                    <option value="Words of Affirmation">Words of Affirmation</option>
+                                    <option value="Physical Touch">Physical Touch</option>
+                                    <option value="Acts of Service">Acts of Service</option>
+                                    <option value="Receiving Gifts">Receiving Gifts</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Sliders -->
+                        <div class="traits-section">
+                            <h4>Personality & Behavioral Traits (1-10)</h4>
+                            
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Openness to Experience</span><strong id="val_b_openness">7.0</strong></div>
+                                <input type="range" id="b_openness" min="1" max="10" step="0.5" value="7.0" oninput="updateVal('b_openness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Extraversion</span><strong id="val_b_extraversion">6.5</strong></div>
+                                <input type="range" id="b_extraversion" min="1" max="10" step="0.5" value="6.5" oninput="updateVal('b_extraversion')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Agreeableness</span><strong id="val_b_agreeableness">8.5</strong></div>
+                                <input type="range" id="b_agreeableness" min="1" max="10" step="0.5" value="8.5" oninput="updateVal('b_agreeableness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Conscientiousness</span><strong id="val_b_conscientiousness">7.5</strong></div>
+                                <input type="range" id="b_conscientiousness" min="1" max="10" step="0.5" value="7.5" oninput="updateVal('b_conscientiousness')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Career Ambition</span><strong id="val_b_career_ambition">7.5</strong></div>
+                                <input type="range" id="b_career_ambition" min="1" max="10" step="0.5" value="7.5" oninput="updateVal('b_career_ambition')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Chronotype (Early Bird 1 -> Night Owl 10)</span><strong id="val_b_chronotype">5.5</strong></div>
+                                <input type="range" id="b_chronotype" min="1" max="10" step="0.5" value="5.5" oninput="updateVal('b_chronotype')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Spontaneity</span><strong id="val_b_spontaneity">6.0</strong></div>
+                                <input type="range" id="b_spontaneity" min="1" max="10" step="0.5" value="6.0" oninput="updateVal('b_spontaneity')">
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-label"><span>Emotional Expressiveness</span><strong id="val_b_emotional_expressiveness">7.5</strong></div>
+                                <input type="range" id="b_emotional_expressiveness" min="1" max="10" step="0.5" value="7.5" oninput="updateVal('b_emotional_expressiveness')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="cta-container">
+                    <button type="submit" class="btn-primary" id="btnPredict">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Compatibility & Predict Match
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Display Section -->
+            <section id="resultsSection" class="results-section glass-card" style="display: none;">
+                <div class="results-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Matchmaking Analysis Results</h2>
+                    <span id="compatibilityBadge" class="status-badge">Calculating...</span>
+                </div>
+
+                <div class="results-grid">
+                    <!-- Gauge Meter Card -->
+                    <div class="meter-card">
+                        <div class="circle-gauge">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
+                                <circle class="gauge-fill" id="gaugeProgress" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                            </svg>
+                            <div class="gauge-text">
+                                <span id="scorePercent">0%</span>
+                                <label>Compatibility</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics Column -->
+                    <div class="metrics-column">
+                        <div class="metric-box">
+                            <div class="metric-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                            <div class="metric-info">
+                                <h3>Predicted Outcome</h3>
+                                <p id="predictedOutcome" class="metric-value">--</p>
+                            </div>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                            <div class="metric-info">
+                                <h3>Estimated Longevity</h3>
+                                <p id="predictedLongevity" class="metric-value">-- months</p>
+                            </div>
+                        </div>
+
+                        <div class="metric-box">
+                            <div class="metric-icon"><i class="fa-solid fa-dna"></i></div>
+                            <div class="metric-info">
+                                <h3>Personality Harmony</h3>
+                                <p id="harmonyIndex" class="metric-value">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Breakdown Cards -->
+                <div class="breakdown-grid">
+                    <div class="breakdown-card">
+                        <h4><i class="fa-solid fa-brain"></i> Big 5 Trait Discrepancy</h4>
+                        <div class="breakdown-progress">
+                            <div class="bar-fill" id="big5Bar" style="width: 0%;"></div>
+                        </div>
+                        <p id="big5Desc">Evaluating Big 5 personality overlap...</p>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <h4><i class="fa-solid fa-compass"></i> Lifestyle & Chronotype Sync</h4>
+                        <div class="breakdown-progress">
+                            <div class="bar-fill" id="lifestyleBar" style="width: 0%;"></div>
+                        </div>
+                        <p id="lifestyleDesc">Evaluating daily rhythm and spontaneity compatibility...</p>
+                    </div>
+
+                    <div class="breakdown-card">
+                        <h4><i class="fa-solid fa-comments"></i> Communication & Love Language</h4>
+                        <div class="breakdown-progress">
+                            <div class="bar-fill" id="commBar" style="width: 0%;"></div>
+                        </div>
+                        <p id="commDesc">Matching love languages and emotional expressiveness...</p>
+                    </div>
+                </div>
+
+                <!-- AI Advice Box -->
+                <div class="advice-card">
+                    <h3><i class="fa-solid fa-lightbulb"></i> Matchmaker AI Insights & Recommendations</h3>
+                    <ul id="adviceList">
+                        <li>Calculating recommendations...</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p>Cupid AI Matchmaking System &bull; Powered by Machine Learning & Big 5 Psychological Modeling &bull; DM Project 2026</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
