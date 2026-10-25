@@ -18,3 +18,9 @@ data/temp/
 
 # Fichiers système
 Thumbs.db
+
+# Données prétraitées (régénérées par 02_preprocessing.ipynb)
+data/processed/X_train.csv
+data/processed/X_test.csv
+data/processed/y_train.csv
+data/processed/y_test.csv
