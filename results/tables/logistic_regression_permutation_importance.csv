@@ -1,0 +1,74 @@
+Variable,Groupe,Baisse de ROC-AUC (moyenne),Écart-type
+same_love_language,construite,0.1076351844375811,0.0020174013139079607
+diff_career_ambition,construite,0.0390826832715363,0.0016758606451713807
+diff_emotional_expressiveness,construite,0.02266081251763776,0.0008514773207544263
+avg_trait_diff,construite,0.0195291289906822,0.001784262408291546
+same_career_field,construite,0.007519837459237522,0.0015380688574859582
+diff_spontaneity,construite,0.0068728438786896055,0.000521472923352053
+big5_harmony_score,construite,0.0048229220559493635,0.0004825763423997663
+same_location,construite,0.003196163026777987,0.0003827067921867617
+age_diff,construite,0.002729220477836769,0.00039676713519828715
+diff_chronotype,construite,0.0009558443829958075,0.0003647692757137083
+diff_agreeableness,construite,0.0008114544791798295,0.00029945341163339505
+personality_similarity_index,construite,0.0007480140493698384,0.000269034887324083
+b_career_field_Creative Arts,catégorielle (one-hot),0.0006679097128591271,0.00015442807275469438
+personality_euclidean_dist,construite,0.0005627186742235724,0.00022826996684435083
+diff_conscientiousness,construite,0.0005475123234928824,0.0001164273997468573
+education_diff,construite,0.0005190675267309874,0.00021169453832349994
+a_career_field_Creative Arts,catégorielle (one-hot),0.00027853200515288724,9.446628868175026e-05
+b_career_field_Entrepreneurship,catégorielle (one-hot),0.00024092134521733755,0.00011807781915174076
+b_career_field_Law,catégorielle (one-hot),0.00017357164414288917,0.00010294653835958601
+a_career_field_Law,catégorielle (one-hot),0.00013186186321556548,0.00010853167724004626
+b_love_language_Physical Touch,catégorielle (one-hot),0.00012020958103400314,3.8791399437762314e-05
+b_career_field_Tech,catégorielle (one-hot),0.00010460924108464109,3.5316163555758786e-05
+a_love_language_Words of Affirmation,catégorielle (one-hot),0.00010031618757593286,4.2134882327097656e-05
+b_career_field_Engineering,catégorielle (one-hot),9.196484097377944e-05,4.2491411817709013e-05
+b_location_Urban,catégorielle (one-hot),8.29969931070984e-05,3.07357733535628e-05
+a_career_field_Entrepreneurship,catégorielle (one-hot),6.589418649931567e-05,0.00011546667112879655
+b_career_ambition,numérique brute,6.185222456536187e-05,3.084764914574933e-05
+b_career_field_Healthcare,catégorielle (one-hot),5.192492108796465e-05,1.617339798568194e-05
+a_career_field_Engineering,catégorielle (one-hot),4.5949758168295496e-05,1.6264161625504212e-05
+diff_extraversion,construite,4.122392893735061e-05,2.0820019919101003e-05
+a_location_Urban,catégorielle (one-hot),3.795769707146679e-05,4.2201090802018754e-05
+a_career_field_Tech,catégorielle (one-hot),3.543249156015005e-05,8.90166376584447e-05
+b_conscientiousness,numérique brute,3.420561321556548e-05,4.890534842825997e-05
+diff_openness,construite,3.304405950821376e-05,8.40197042340772e-05
+b_spontaneity,numérique brute,2.7477175571832824e-05,4.137017171863815e-05
+a_career_field_Healthcare,catégorielle (one-hot),2.3633228944697214e-05,6.221049626424442e-05
+a_location_Suburban,catégorielle (one-hot),2.2902409564729e-05,2.5669776368402232e-05
+b_love_language_Words of Affirmation,catégorielle (one-hot),2.1181513650381234e-05,3.930319182646721e-05
+a_agreeableness,numérique brute,2.0475191009339255e-05,3.1913952712938865e-05
+a_love_language_Receiving Gifts,catégorielle (one-hot),2.0168981771950813e-05,9.888395602079826e-06
+b_career_field_Finance,catégorielle (one-hot),1.8094924537104264e-05,8.408778981110702e-06
+a_chronotype,numérique brute,1.6178054710835888e-05,1.1990130911309291e-05
+a_career_field_Education,catégorielle (one-hot),1.607394357008296e-05,5.3177570921049914e-05
+b_emotional_expressiveness,numérique brute,1.476745082376052e-05,1.0201623498665869e-05
+a_career_ambition,numérique brute,1.0221264345333659e-05,1.0149360181751184e-05
+b_career_field_Education,catégorielle (one-hot),7.973688542661783e-06,7.429209115740707e-06
+a_education,numérique brute,6.5855399996816996e-06,3.923561156344633e-05
+a_emotional_expressiveness,numérique brute,6.344655399614929e-06,1.1235757876338879e-05
+b_love_language_Quality Time,catégorielle (one-hot),5.468896980542759e-06,4.066330571449456e-06
+a_love_language_Acts of Service,catégorielle (one-hot),3.83782244250952e-06,7.350189736968406e-06
+b_love_language_Acts of Service,catégorielle (one-hot),3.6785936390115736e-06,6.6783435185917505e-06
+a_career_field_Finance,catégorielle (one-hot),2.357811128250731e-06,3.7259399980113166e-06
+b_location_Rural,catégorielle (one-hot),1.2023816057471493e-06,4.938380014575868e-05
+b_extraversion,numérique brute,-8.573858636395926e-08,3.533221174971009e-06
+a_spontaneity,numérique brute,-5.487269534532047e-06,2.4340167694470097e-05
+b_education,numérique brute,-7.391890991415018e-06,3.615910857974817e-05
+a_location_Rural,catégorielle (one-hot),-7.76750765592027e-06,6.50999516885467e-05
+b_career_field_Science,catégorielle (one-hot),-8.86373672595031e-06,2.1410759293180925e-05
+b_age,numérique brute,-8.878026490299895e-06,1.6453399118938213e-05
+a_conscientiousness,numérique brute,-9.110745510754193e-06,3.916479782143274e-05
+a_love_language_Physical Touch,catégorielle (one-hot),-1.3124127915964401e-05,2.283163225372382e-05
+a_career_field_Marketing,catégorielle (one-hot),-1.6120895652971258e-05,3.1957277243288805e-05
+b_openness,numérique brute,-1.6963991753304873e-05,3.041643077252966e-05
+b_career_field_Marketing,catégorielle (one-hot),-1.7992854791049063e-05,1.8744376029922276e-05
+a_age,numérique brute,-2.0632378417673182e-05,1.562939009051082e-05
+b_chronotype,numérique brute,-2.5225516979077155e-05,1.1067816718135746e-05
+b_location_Suburban,catégorielle (one-hot),-2.732202955797458e-05,7.738445829277774e-05
+b_love_language_Receiving Gifts,catégorielle (one-hot),-3.08209804443349e-05,1.1430420016478555e-05
+a_career_field_Science,catégorielle (one-hot),-3.105574085966456e-05,0.00010748390279854363
+a_openness,numérique brute,-3.2580662862047305e-05,3.178551658227411e-05
+a_love_language_Quality Time,catégorielle (one-hot),-3.5630506866835e-05,1.1074992436135175e-05
+b_agreeableness,numérique brute,-5.231074472684671e-05,4.837043749501737e-05
+a_extraversion,numérique brute,-7.286350874298186e-05,5.330365365085385e-05
