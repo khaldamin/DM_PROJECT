@@ -125,13 +125,24 @@ class CupidDataPreprocessor:
 
     def prepare_train_test(self, csv_filepath: str):
         """
-        Loads CSV dataset, fits/transforms data, and splits into train and test sets.
+        Splits the CSV dataset before fitting transformations to avoid data leakage.
         """
         df = pd.read_csv(csv_filepath)
-        X, y = self.fit_transform(df)
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=self.test_size, random_state=self.random_state, stratify=y
+
+        # Split the raw rows first. The test partition must not influence the
+        # categories or scaling statistics learned by the preprocessor.
+        y = df[self.target_col].values if self.target_col in df.columns else None
+        train_df, test_df = train_test_split(
+            df,
+            test_size=self.test_size,
+            random_state=self.random_state,
+            stratify=y
         )
+
+        X_train, y_train = self.fit_transform(train_df)
+        X_test = self.transform(test_df)
+        y_test = test_df[self.target_col].values if self.target_col in test_df.columns else None
+
         return X_train, X_test, y_train, y_test
 
     def save(self, filepath: str):
