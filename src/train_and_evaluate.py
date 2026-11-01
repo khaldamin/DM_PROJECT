@@ -3,6 +3,9 @@ import sys
 import json
 import pandas as pd
 import numpy as np
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
 
 sys.path.insert(0, os.path.abspath('.'))
 
@@ -17,6 +20,22 @@ from src.models import (
 )
 from src.evluation.metrics import evaluate_classification_model, print_evaluation_summary
 from src.evluation.tuning import tune_hyperparameters
+
+
+class CupidFoldPreprocessor(BaseEstimator, TransformerMixin):
+    """Scikit-learn adapter that fits Cupid preprocessing on each CV fold."""
+
+    def __init__(self, target_col='compatible'):
+        self.target_col = target_col
+
+    def fit(self, X, y=None):
+        self.preprocessor_ = CupidDataPreprocessor(target_col=self.target_col)
+        self.preprocessor_.fit_transform(X)
+        self.feature_names_ = self.preprocessor_.feature_names
+        return self
+
+    def transform(self, X):
+        return self.preprocessor_.transform(X)
 
 def main():
     print("==================================================")
@@ -76,20 +95,37 @@ def main():
 
     # 4. Hyperparameter Tuning for XGBoost
     print("\n[4/5] Tuning XGBoost Model Hyperparameters...")
-    xgb_base = CupidXGBoost(n_jobs=-1, random_state=42).model
+    # Tune on the raw outer-training rows. Pipeline is cloned for every search
+    # fold, so each cloned preprocessor learns only from that fold's training
+    # partition. Keep the final test set out of the search entirely.
+    raw_df = pd.read_csv(data_path)
+    raw_train_df, _ = train_test_split(
+        raw_df,
+        test_size=0.2,
+        random_state=42,
+        stratify=raw_df['compatible']
+    )
+    raw_test_df = raw_df.drop(index=raw_train_df.index)
+    X_raw_train = raw_train_df.drop(columns=['compatible'])
+    y_raw_train = raw_train_df['compatible'].to_numpy()
+
+    xgb_pipeline = Pipeline([
+        ('preprocessor', CupidFoldPreprocessor(target_col='compatible')),
+        ('classifier', CupidXGBoost(n_jobs=-1, random_state=42).model)
+    ])
     param_grid = {
-        'n_estimators': [100, 150, 200],
-        'max_depth': [4, 6, 8],
-        'learning_rate': [0.03, 0.08, 0.12],
-        'subsample': [0.7, 0.8, 0.9],
-        'colsample_bytree': [0.7, 0.8, 0.9]
+        'classifier__n_estimators': [100, 150, 200],
+        'classifier__max_depth': [4, 6, 8],
+        'classifier__learning_rate': [0.03, 0.08, 0.12],
+        'classifier__subsample': [0.7, 0.8, 0.9],
+        'classifier__colsample_bytree': [0.7, 0.8, 0.9]
     }
     
     best_xgb_sk, best_params, best_score = tune_hyperparameters(
-        estimator=xgb_base,
+        estimator=xgb_pipeline,
         param_grid=param_grid,
-        X_train=X_train,
-        y_train=y_train,
+        X_train=X_raw_train,
+        y_train=y_raw_train,
         method='random',
         n_iter=6,
         cv=3,
@@ -102,22 +138,29 @@ def main():
     print(f"Best CV F1-Score: {best_score:.4f}")
 
     # Evaluate Tuned XGBoost
-    tuned_xgb = CupidXGBoost(
-        n_estimators=best_params['n_estimators'],
-        max_depth=best_params['max_depth'],
-        learning_rate=best_params['learning_rate'],
-        subsample=best_params['subsample'],
-        colsample_bytree=best_params['colsample_bytree'],
-        n_jobs=-1,
-        random_state=42
+    # RandomizedSearchCV refits its best pipeline on all outer-training rows.
+    tuned_metrics = evaluate_classification_model(
+        best_xgb_sk, raw_test_df.drop(columns=['compatible']),
+        raw_test_df['compatible'].to_numpy(), model_name="Tuned XGBoost"
     )
-    tuned_xgb.fit(X_train, y_train)
-    tuned_metrics = evaluate_classification_model(tuned_xgb, X_test, y_test, model_name="Tuned XGBoost")
     print_evaluation_summary(tuned_metrics)
 
     # 5. Save Best Model
     print("\n[5/5] Saving Best Model...")
     best_model_path = os.path.join(results_dir, "best_model.pkl")
+    # Persist the existing wrapper format used by the application. Refit its
+    # classifier on the outer training matrix produced by the same train-only
+    # preprocessor saved above.
+    tuned_xgb = CupidXGBoost(
+        n_estimators=best_params['classifier__n_estimators'],
+        max_depth=best_params['classifier__max_depth'],
+        learning_rate=best_params['classifier__learning_rate'],
+        subsample=best_params['classifier__subsample'],
+        colsample_bytree=best_params['classifier__colsample_bytree'],
+        n_jobs=-1,
+        random_state=42
+    )
+    tuned_xgb.fit(X_train, y_train)
     tuned_xgb.save(best_model_path)
     print(f"Successfully saved Best Model (Tuned XGBoost) to '{best_model_path}'")
 
@@ -125,7 +168,7 @@ def main():
     with open(summary_file, "w") as f:
         json.dump({
             "best_model": "Tuned XGBoost",
-            "best_params": best_params,
+            "best_params": {key.replace('classifier__', ''): value for key, value in best_params.items()},
             "metrics": {
                 "Accuracy": float(tuned_metrics["Accuracy"]),
                 "Precision": float(tuned_metrics["Precision"]),
