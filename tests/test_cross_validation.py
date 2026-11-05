@@ -133,7 +133,7 @@ def test_randomized_tuning_refits_preprocessor_inside_each_fold(monkeypatch):
         ("classifier", DecisionTreeClassifier(random_state=0)),
     ])
 
-    tune_hyperparameters(
+    _, _, _, search = tune_hyperparameters(
         estimator=estimator,
         param_grid={"classifier__max_depth": [1, 2]},
         X_train=X,
@@ -144,9 +144,32 @@ def test_randomized_tuning_refits_preprocessor_inside_each_fold(monkeypatch):
         scoring="f1",
         n_jobs=1,
         random_state=7,
+        return_search=True,
     )
 
     # 3 folds per candidate plus one final refit on all supplied training rows.
     assert len(fitted_preprocessors) == 2 * 3 + 1
     assert len({id(preprocessor) for preprocessor in fitted_preprocessors}) == len(fitted_preprocessors)
     assert len(set(fitted_means[:3])) > 1
+    assert {"mean_test_score", "std_test_score", "rank_test_score", "mean_fit_time", "mean_score_time"}.issubset(search.cv_results_)
+
+
+def test_randomized_tuning_is_reproducible():
+    df = _make_raw_data()
+    X = df.drop(columns="compatible")
+    y = df["compatible"].to_numpy()
+    estimator = Pipeline([
+        ("preprocessor", CupidFoldPreprocessor()),
+        ("classifier", DecisionTreeClassifier(random_state=0)),
+    ])
+    kwargs = dict(
+        estimator=estimator,
+        param_grid={"classifier__max_depth": [1, 2, 3]},
+        X_train=X, y_train=y, method="random", n_iter=2, cv=3,
+        scoring="f1", n_jobs=1, random_state=42, return_search=True,
+    )
+    first = tune_hyperparameters(**kwargs)
+    second = tune_hyperparameters(**kwargs)
+    assert first[1] == second[1]
+    assert first[2] == second[2]
+    np.testing.assert_allclose(first[3].cv_results_["mean_test_score"], second[3].cv_results_["mean_test_score"])

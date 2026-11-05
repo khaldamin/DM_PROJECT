@@ -1,5 +1,8 @@
 import numpy as np
 import pandas as pd
+import os
+import shutil
+import uuid
 
 from src.data.preprocessing import CupidDataPreprocessor
 from src.models import BaseModel, CupidXGBoost
@@ -21,7 +24,7 @@ def _make_dataset(n_rows=30):
     return pd.DataFrame(data)
 
 
-def test_saved_model_and_preprocessor_work_together(tmp_path):
+def test_saved_model_and_preprocessor_work_together():
     dataset = _make_dataset()
     preprocessor = CupidDataPreprocessor()
     X, y = preprocessor.fit_transform(dataset)
@@ -35,23 +38,29 @@ def test_saved_model_and_preprocessor_work_together(tmp_path):
     )
     model.fit(X, y)
 
-    preprocessor_path = tmp_path / "preprocessor.pkl"
-    model_path = tmp_path / "model.pkl"
-    preprocessor.save(str(preprocessor_path))
-    model.save(str(model_path))
+    temp_dir = os.path.abspath(f".integration-{uuid.uuid4().hex}")
+    os.makedirs(temp_dir)
+    try:
+        from pathlib import Path
+        preprocessor_path = Path(temp_dir) / "preprocessor.pkl"
+        model_path = Path(temp_dir) / "model.pkl"
+        preprocessor.save(str(preprocessor_path))
+        model.save(str(model_path))
 
-    # Follow the same reload pattern used by the Flask application.
-    loaded_preprocessor = CupidDataPreprocessor.load(str(preprocessor_path))
-    loaded_model = BaseModel.load(str(model_path))
+        # Follow the same reload pattern used by the Flask application.
+        loaded_preprocessor = CupidDataPreprocessor.load(str(preprocessor_path))
+        loaded_model = BaseModel.load(str(model_path))
 
-    new_observation = dataset.drop(columns="compatible").iloc[[0]].copy()
-    transformed_observation = loaded_preprocessor.transform(new_observation)
-    prediction = loaded_model.predict(transformed_observation)
-    probabilities = loaded_model.predict_proba(transformed_observation)
+        new_observation = dataset.drop(columns="compatible").iloc[[0]].copy()
+        transformed_observation = loaded_preprocessor.transform(new_observation)
+        prediction = loaded_model.predict(transformed_observation)
+        probabilities = loaded_model.predict_proba(transformed_observation)
 
-    assert prediction.shape == (1,)
-    assert prediction[0] in (0, 1)
-    assert probabilities.shape == (1, 2)
-    assert np.isfinite(probabilities).all()
-    assert np.all((probabilities >= 0.0) & (probabilities <= 1.0))
-    assert np.isclose(probabilities.sum(axis=1), 1.0).all()
+        assert prediction.shape == (1,)
+        assert prediction[0] in (0, 1)
+        assert probabilities.shape == (1, 2)
+        assert np.isfinite(probabilities).all()
+        assert np.all((probabilities >= 0.0) & (probabilities <= 1.0)).all()
+        assert np.isclose(probabilities.sum(axis=1), 1.0).all()
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
