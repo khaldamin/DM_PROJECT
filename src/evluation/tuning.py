@@ -1,6 +1,6 @@
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
-def tune_hyperparameters(estimator, param_grid, X_train, y_train, method='random', n_iter=15, cv=3, scoring='f1', n_jobs=-1, random_state=42):
+def tune_hyperparameters(estimator, param_grid, X_train, y_train, method='random', n_iter=15, cv=3, scoring='f1', n_jobs=-1, random_state=42, return_search=False):
     """
     Executes GridSearchCV or RandomizedSearchCV hyperparameter tuning.
     """
@@ -26,4 +26,5 @@ def tune_hyperparameters(estimator, param_grid, X_train, y_train, method='random
         )
 
     search.fit(X_train, y_train)
-    return search.best_estimator_, search.best_params_, search.best_score_
+    result = (search.best_estimator_, search.best_params_, search.best_score_)
+    return (*result, search) if return_search else result
