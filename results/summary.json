@@ -7,6 +7,15 @@
         "learning_rate": 0.12,
         "colsample_bytree": 0.8
     },
+    "best_cv_score": 0.660766263125101,
+    "evaluation": {
+        "model_artifact": "results\\best_model.pkl",
+        "preprocessor_artifact": "results\\preprocessor.pkl",
+        "test_rows": 20000,
+        "test_size": 0.2,
+        "random_state": 42,
+        "scoring": "f1"
+    },
     "metrics": {
         "Accuracy": 0.72645,
         "Precision": 0.7042494408630443,
