@@ -1,14 +1,47 @@
+import json
 import os
-import pandas as pd
+
 import numpy as np
-from flask import Flask, render_template, request, jsonify
+import pandas as pd
+from flask import Flask, jsonify, render_template, request
+
 from src.data.preprocessing import CupidDataPreprocessor
-from src.models import CupidXGBoost, BaseModel
+from src.models import BaseModel, CupidXGBoost
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
 BEST_MODEL = None
 PREPROCESSOR = None
+
+# ---------------------------------------------------------------------------
+# Required fields for /api/predict
+# ---------------------------------------------------------------------------
+
+REQUIRED_NUMERIC_FIELDS = [
+    "a_age", "b_age",
+    "a_education", "b_education",
+    "a_career_ambition", "b_career_ambition",
+    "a_openness", "b_openness",
+    "a_extraversion", "b_extraversion",
+    "a_agreeableness", "b_agreeableness",
+    "a_conscientiousness", "b_conscientiousness",
+    "a_chronotype", "b_chronotype",
+    "a_spontaneity", "b_spontaneity",
+    "a_emotional_expressiveness", "b_emotional_expressiveness",
+]
+
+REQUIRED_STRING_FIELDS = [
+    "a_location", "b_location",
+    "a_career_field", "b_career_field",
+    "a_love_language", "b_love_language",
+]
+
+REQUIRED_FIELDS = REQUIRED_NUMERIC_FIELDS + REQUIRED_STRING_FIELDS
+
+
+# ---------------------------------------------------------------------------
+# ML pipeline loader
+# ---------------------------------------------------------------------------
 
 def load_ml_pipeline():
     global BEST_MODEL, PREPROCESSOR
@@ -23,17 +56,101 @@ def load_ml_pipeline():
         except Exception as e:
             print(f"Error loading ML artifacts: {e}")
 
+
+# ---------------------------------------------------------------------------
+# Validation helper
+# ---------------------------------------------------------------------------
+
+def validate_predict_payload(data):
+    """Return (is_valid: bool, error_message: str | None).
+
+    Checks that:
+    - data is a non-empty dict
+    - all required fields are present
+    - numeric fields can be cast to float
+    """
+    if not data or not isinstance(data, dict):
+        return False, "Request body must be a non-empty JSON object."
+
+    missing = [f for f in REQUIRED_FIELDS if f not in data]
+    if missing:
+        return False, f"Missing required field(s): {', '.join(missing)}"
+
+    bad_numeric = []
+    for f in REQUIRED_NUMERIC_FIELDS:
+        try:
+            float(data[f])
+        except (TypeError, ValueError):
+            bad_numeric.append(f)
+    if bad_numeric:
+        return False, f"The following fields must be numeric: {', '.join(bad_numeric)}"
+
+    return True, None
+
+
+# ---------------------------------------------------------------------------
+# Routes
+# ---------------------------------------------------------------------------
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
+@app.route('/api/health', methods=['GET'])
+def health():
+    """Return the current status of the application and ML model."""
+    model_loaded = BEST_MODEL is not None and PREPROCESSOR is not None
+    return jsonify({
+        "status": "ok",
+        "model_loaded": model_loaded,
+        "model_type": type(BEST_MODEL).__name__ if model_loaded else None,
+        "preprocessor_type": type(PREPROCESSOR).__name__ if model_loaded else None,
+    })
+
+
+@app.route('/api/model-info', methods=['GET'])
+def model_info():
+    """Return metadata about the best trained model from results/summary.json."""
+    summary_path = os.path.join("results", "summary.json")
+    if not os.path.exists(summary_path):
+        return jsonify({
+            "best_model": None,
+            "metrics": {},
+            "note": "summary.json not found — run training pipeline first.",
+        })
+    try:
+        with open(summary_path, "r", encoding="utf-8") as fh:
+            summary = json.load(fh)
+        return jsonify(summary)
+    except Exception as exc:
+        return jsonify({
+            "best_model": None,
+            "metrics": {},
+            "error": f"Could not read summary.json: {exc}",
+        }), 500
+
+
 @app.route('/api/predict', methods=['POST'])
 def predict():
+    """Predict compatibility between two individuals.
+
+    Expects a JSON body with all fields listed in REQUIRED_FIELDS.
+    Returns a JSON object with compatibility score and breakdown metrics.
+    """
+    # --- Parse JSON body ---
+    data = request.get_json(silent=True)
+
+    # --- Validate payload ---
+    is_valid, error_msg = validate_predict_payload(data)
+    if not is_valid:
+        return jsonify({"success": False, "error": error_msg}), 400
+
     try:
-        data = request.get_json()
         df_single = pd.DataFrame([data])
 
         if BEST_MODEL is not None and PREPROCESSOR is not None:
+            # ---- ML model path ----
             X_trans = PREPROCESSOR.transform(df_single)
             proba = BEST_MODEL.predict_proba(X_trans)[0, 1]
             pred = int(BEST_MODEL.predict(X_trans)[0])
@@ -53,28 +170,31 @@ def predict():
                 "estimated_longevity_months": max(3, min(120, longevity)),
                 "big5_harmony_score": big5_harmony,
                 "avg_trait_diff": avg_diff,
-                "personality_distance": dist
+                "personality_distance": dist,
             })
+
         else:
-            # Mathematical model calculation if artifacts not loaded yet
-            age_diff = abs(data['a_age'] - data['b_age'])
+            # ---- Fallback: mathematical model ----
+            age_diff = abs(float(data['a_age']) - float(data['b_age']))
             same_loc = 1.0 if data['a_location'] == data['b_location'] else 0.0
             same_love = 1.0 if data['a_love_language'] == data['b_love_language'] else 0.0
 
             trait_diffs = [
-                abs(data['a_openness'] - data['b_openness']),
-                abs(data['a_extraversion'] - data['b_extraversion']),
-                abs(data['a_agreeableness'] - data['b_agreeableness']),
-                abs(data['a_conscientiousness'] - data['b_conscientiousness']),
-                abs(data['a_chronotype'] - data['b_chronotype']),
-                abs(data['a_spontaneity'] - data['b_spontaneity']),
-                abs(data['a_emotional_expressiveness'] - data['b_emotional_expressiveness']),
-                abs(data['a_career_ambition'] - data['b_career_ambition'])
+                abs(float(data['a_openness']) - float(data['b_openness'])),
+                abs(float(data['a_extraversion']) - float(data['b_extraversion'])),
+                abs(float(data['a_agreeableness']) - float(data['b_agreeableness'])),
+                abs(float(data['a_conscientiousness']) - float(data['b_conscientiousness'])),
+                abs(float(data['a_chronotype']) - float(data['b_chronotype'])),
+                abs(float(data['a_spontaneity']) - float(data['b_spontaneity'])),
+                abs(float(data['a_emotional_expressiveness']) - float(data['b_emotional_expressiveness'])),
+                abs(float(data['a_career_ambition']) - float(data['b_career_ambition'])),
             ]
-            dist = float(np.sqrt(sum(x**2 for x in trait_diffs)))
+            dist = float(np.sqrt(sum(x ** 2 for x in trait_diffs)))
             avg_diff = float(np.mean(trait_diffs))
 
-            score = float(max(10, min(99, 95 - (dist * 7.5) - (age_diff * 0.8) + (same_loc * 6) + (same_love * 8))))
+            score = float(max(10, min(99,
+                95 - (dist * 7.5) - (age_diff * 0.8) + (same_loc * 6) + (same_love * 8)
+            )))
             pred = 1 if score >= 55 else 0
             longevity = int(round(score * 0.95 + (same_love * 12)))
 
@@ -83,13 +203,17 @@ def predict():
                 "compatibility_score": score,
                 "compatible": pred,
                 "estimated_longevity_months": max(3, min(120, longevity)),
-                "big5_harmony_score": round(max(0, 100 - avg_diff * 15), 1),
+                "big5_harmony_score": round(max(0.0, 100.0 - avg_diff * 15), 1),
                 "avg_trait_diff": round(avg_diff, 2),
-                "personality_distance": round(dist, 2)
+                "personality_distance": round(dist, 2),
             })
 
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 400
+    except Exception as exc:
+        return jsonify({
+            "success": False,
+            "error": f"Prediction failed: {exc}",
+        }), 400
+
 
 if __name__ == '__main__':
     load_ml_pipeline()

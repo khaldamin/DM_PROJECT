@@ -1,0 +1,10 @@
+mean_test_score,std_test_score,rank_test_score,mean_fit_time,mean_score_time,params
+0.80407,0.00475,1,2.5269,0.0588,"{'n_estimators': 150, 'max_depth': 4}"
+0.80393,0.00695,2,3.9768,0.1895,"{'n_estimators': 50, 'max_depth': 4}"
+0.80346,0.00619,3,4.3916,0.2286,"{'n_estimators': 100, 'max_depth': 8}"
+0.80003,0.0104,4,2.4406,0.0954,"{'n_estimators': 100, 'max_depth': 4}"
+0.79735,0.00357,5,3.8622,0.1763,"{'n_estimators': 100, 'max_depth': 6}"
+0.79049,0.00633,6,2.5374,0.0879,"{'n_estimators': 150, 'max_depth': 8}"
+0.78534,0.00915,7,3.5556,0.2435,"{'n_estimators': 150, 'max_depth': 6}"
+0.78456,0.00705,8,2.172,0.2354,"{'n_estimators': 50, 'max_depth': 8}"
+0.78354,0.01178,9,3.6162,0.2072,"{'n_estimators': 50, 'max_depth': 6}"
