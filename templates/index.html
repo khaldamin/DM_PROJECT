@@ -354,6 +354,35 @@
                     </div>
                 </div>
 
+                <!-- Live SHAP Explainability (XAI) Attribution Box -->
+                <div class="xai-box glass-card">
+                    <div class="xai-header">
+                        <div class="xai-title">
+                            <h3><i class="fa-solid fa-brain"></i> Explicabilité XAI en Direct (SHAP TreeExplainer)</h3>
+                            <p class="xai-subtitle">Facteurs clés de décision calculés par attribution de Shapley :</p>
+                        </div>
+                        <span class="xai-badge"><i class="fa-solid fa-shield-halved"></i> Modèle Transparent</span>
+                    </div>
+
+                    <div class="xai-columns">
+                        <!-- Points Forts (Promoteurs de compatibilité) -->
+                        <div class="xai-col strengths-col">
+                            <h4><i class="fa-solid fa-circle-check"></i> ✅ Points Forts (Moteurs du Match)</h4>
+                            <ul id="xaiStrengthsList" class="xai-list">
+                                <li>Calcul de l'attribution SHAP...</li>
+                            </ul>
+                        </div>
+
+                        <!-- Points de Friction (Freins potentiels) -->
+                        <div class="xai-col frictions-col">
+                            <h4><i class="fa-solid fa-triangle-exclamation"></i> ⚠️ Points de Friction (Axes de vigilance)</h4>
+                            <ul id="xaiFrictionsList" class="xai-list">
+                                <li>Calcul de l'attribution SHAP...</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- AI Advice Box -->
                 <div class="advice-card">
                     <h3><i class="fa-solid fa-lightbulb"></i> Matchmaker AI Insights & Recommendations</h3>

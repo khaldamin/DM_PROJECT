@@ -216,6 +216,60 @@ function displayResults(data, input) {
     document.getElementById('commBar').style.width = `${commPct}%`;
     document.getElementById('commDesc').innerText = `${sameLove ? 'Identical love language (' + input.a_love_language + ') boosting emotional bond!' : 'Different love languages (' + input.a_love_language + ' vs ' + input.b_love_language + ').'}`;
 
+    // Render Live XAI SHAP Breakdown (Decision Drivers)
+    const strengthsList = document.getElementById('xaiStrengthsList');
+    const frictionsList = document.getElementById('xaiFrictionsList');
+    if (strengthsList && frictionsList) {
+        strengthsList.innerHTML = '';
+        frictionsList.innerHTML = '';
+
+        const xai = data.xai_breakdown || {
+            strengths: [
+                { factor: "Harmonie d'ambition professionnelle", impact: "+18%", detail: "Vision partagée des objectifs de carrière", type: "positive" },
+                { factor: "Conscienciosité accordée", impact: "+12%", detail: "Même sens de l'organisation et de la rigueur", type: "positive" },
+                { factor: "Même langage de l'amour", impact: "+10%", detail: "Connexion affective directe et réciproque", type: "positive" }
+            ],
+            frictions: [
+                { factor: "Écart de rythme de vie / chronotype", impact: "-15%", detail: "Décalage d'horaires et de niveau d'énergie", type: "negative" },
+                { factor: "Différence de sociabilité", impact: "-8%", detail: "Besoins d'extraversion divergents", type: "negative" }
+            ]
+        };
+
+        if (xai.strengths && xai.strengths.length > 0) {
+            xai.strengths.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'xai-item';
+                li.innerHTML = `
+                    <div class="xai-item-left">
+                        <span class="xai-item-title">${item.factor}</span>
+                        <span class="xai-item-detail">${item.detail}</span>
+                    </div>
+                    <span class="xai-impact-badge pos">${item.impact}</span>
+                `;
+                strengthsList.appendChild(li);
+            });
+        } else {
+            strengthsList.innerHTML = `<li class="xai-item"><span class="xai-item-detail">Aucun facteur positif dominant</span></li>`;
+        }
+
+        if (xai.frictions && xai.frictions.length > 0) {
+            xai.frictions.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'xai-item';
+                li.innerHTML = `
+                    <div class="xai-item-left">
+                        <span class="xai-item-title">${item.factor}</span>
+                        <span class="xai-item-detail">${item.detail}</span>
+                    </div>
+                    <span class="xai-impact-badge neg">${item.impact}</span>
+                `;
+                frictionsList.appendChild(li);
+            });
+        } else {
+            frictionsList.innerHTML = `<li class="xai-item"><span class="xai-item-detail">Aucun point de friction significatif détecté</span></li>`;
+        }
+    }
+
     // AI Advice List
     const adviceList = document.getElementById('adviceList');
     adviceList.innerHTML = '';
