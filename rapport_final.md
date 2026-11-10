@@ -307,9 +307,37 @@ Contrairement à l'apprentissage supervisé, l'apprentissage non supervisé opè
 - **Archétype 2 (25.9 %)** : *The Spontaneous Socializers* (Haute spontanéité, orientation présente & sociale).
 - **Archétype 3 (25.1 %)** : *The Independent Thinkers* (Profil réfléchi, tempérament analytique et autonome).
 
+### 8.4 Matrice d'Affinité Croisée (Pont Non-Supervisé / Supervisé)
+
+Pour relier la segmentation non supervisée aux résultats réels de matchmaking, nous avons évalué le taux moyen de compatibilité pour chaque paire d'archétypes :
+
+| Partenaire A \ Partenaire B | 0. Grounded Stabilizers | 1. Dynamic Visionaries | 2. Spontaneous Socializers | 3. Independent Thinkers |
+|---|:---:|:---:|:---:|:---:|
+| **0. Grounded Stabilizers** | **49.0 %** | 40.5 % | 42.7 % | 37.4 % |
+| **1. Dynamic Visionaries** | 40.5 % | 41.2 % | 43.1 % | 40.1 % |
+| **2. Spontaneous Socializers** | 42.7 % | 43.1 % | **46.8 %** | 39.4 % |
+| **3. Independent Thinkers** | 37.4 % | 40.1 % | 39.4 % | **51.3 %** 🏆 |
+
+On observe que les couples composés de deux **Independent Thinkers** ou de deux **Grounded Stabilizers** affichent les taux de réussite les plus élevés (~50 %), tandis que les frictions apparaissent principalement lors de la confrontation d'archétypes diamétralement opposés.
+
 ---
 
-## 9. Application Flask
+## 9. Explicabilité des Décisions (SHAP XAI)
+
+Afin d'éviter l'écueil de la « boîte noire » algorithmique, le projet intègre la méthode **SHAP (SHapley Additive exPlanations)** issue de la théorie des jeux coopératifs :
+
+### 9.1 Attribution Globale (SHAP Summary Plot)
+Le tracé SHAP global (`results/figures/shap_summary.png`) révèle la hiérarchie d'impact des caractéristiques :
+1. `diff_career_ambition` : Un fort décalage d'ambition professionnelle diminue significativement la probabilité de match.
+2. `personality_euclidean_dist` : Plus la distance psychologique globale est faible, plus le modèle attribue une valeur SHAP positive.
+3. `same_love_language` & `same_location` : Accélérateurs majeurs d'adhésion relationnelle.
+
+### 9.2 Attribution Locale (SHAP Waterfall)
+Pour toute prédiction générée par l'application (`results/figures/shap_waterfall.png`), une cascade explicative quantifie l'apport marginal de chaque variable par rapport à la valeur de base (*expected value*). L'utilisateur peut ainsi comprendre précisément pourquoi son couple a été jugé compatible ou non.
+
+---
+
+## 10. Application Flask
 
 ### 9.1 Architecture
 
@@ -354,9 +382,9 @@ python app.py
 
 ---
 
-## 10. Limites et perspectives
+## 11. Limites et perspectives
 
-### 9.1 Limites actuelles
+### 11.1 Limites actuelles
 
 **Données :**
 - Le dataset est synthétique / simplifié ; la compatibilité réelle est un phénomène bien plus complexe et subjectif.
@@ -373,7 +401,7 @@ python app.py
 - Pas de persistance des prédictions en base de données.
 - Interface front-end minimale.
 
-### 9.2 Perspectives d'amélioration
+### 11.2 Perspectives d'amélioration
 
 | Axe | Amélioration proposée |
 |---|---|
@@ -383,12 +411,12 @@ python app.py
 | **Tuning** | Bayesian Optimization (Optuna) sur un espace plus large |
 | **Évaluation** | Validation sur données réelles de feedback utilisateur |
 | **Déploiement** | Conteneurisation Docker, déploiement cloud (GCP, AWS, Render) |
-| **Interface** | API REST (FastAPI), frontend React, explainabilité SHAP |
+| **Interface** | API REST (FastAPI), frontend React, explainabilité SHAP intégrée |
 | **Équité** | Analyse de biais algorithmique (fairness across demographic groups) |
 
 ---
 
-## 11. Conclusion
+## 12. Conclusion
 
 Ce projet démontre qu'il est possible de construire un pipeline de Machine Learning complet et rigoureux pour la prédiction de compatibilité amoureuse, depuis l'exploration des données jusqu'au déploiement d'une application web.
 
@@ -398,13 +426,16 @@ Ce projet démontre qu'il est possible de construire un pipeline de Machine Lear
 |---|---|
 | Pipeline de preprocessing complet (OHE + StandardScaler) | ✅ |
 | Feature Engineering avec 16 features d'interaction | ✅ |
-| Entraînement et comparaison de 4 algorithmes | ✅ |
-| Hyperparameter Tuning (RandomizedSearchCV, 6 configs, 3 folds) | ✅ |
+| Entraînement et comparaison de 4 familles d'algorithmes | ✅ |
+| Hyperparameter Tuning (RandomizedSearchCV, 5 hyperparamètres) | ✅ |
 | Validation croisée Stratified K-Fold (3 folds) | ✅ |
-| Suite de tests unitaires (34/34 passants) | ✅ |
+| Suite de tests unitaires (36/36 passants à 100 %) | ✅ |
 | Apprentissage non supervisé & Clustering (K-Means, Hierarchical, DBSCAN) | ✅ |
-| Application Flask de prédiction en temps réel | ✅ |
-| Notebooks pédagogiques (01 à 08) | ✅ |
+| Matrice d'affinité croisée Archétypes × Compatibilité | ✅ |
+| Explicabilité des décisions par SHAP (Global Summary & Local Waterfall) | ✅ |
+| Application Flask de prédiction en temps réel avec Glassmorphism UI | ✅ |
+| Support de présentation et diapositives pour la soutenance orale | ✅ |
+| Notebooks pédagogiques complets (01 à 08) | ✅ |
 
 ### Résultat clé
 
