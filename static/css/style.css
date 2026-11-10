@@ -727,3 +727,148 @@ input[type="range"] {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
+
+/* ================================
+   PSYCHOLOGICAL ARCHETYPES SECTION
+================================ */
+
+.archetypes-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 24px;
+}
+
+.archetypes-section .section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.archetypes-section .section-tag {
+    color: #a78bfa;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.archetypes-section .section-heading h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    margin: 12px 0;
+}
+
+.archetypes-section .section-heading h2 span {
+    background: linear-gradient(90deg, #a78bfa, #38bdf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.archetypes-section .section-heading p {
+    color: #94a3b8;
+    font-size: 15px;
+}
+
+.archetypes-chart-card {
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(16px);
+}
+
+.archetypes-chart-header {
+    margin-bottom: 20px;
+}
+
+.archetypes-chart-header h3 {
+    color: #f8fafc;
+    font-size: 21px;
+    margin: 0 0 6px;
+}
+
+.archetypes-chart-header p {
+    color: #94a3b8;
+    font-size: 13px;
+    margin: 0;
+}
+
+.radar-chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    height: 520px;
+    margin: 0 auto;
+}
+
+.archetypes-description-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.archetype-description {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.archetype-dot {
+    flex-shrink: 0;
+    width: 11px;
+    height: 11px;
+    margin-top: 5px;
+    border-radius: 50%;
+}
+
+.stabilizers .archetype-dot {
+    background: #38bdf8;
+}
+
+.visionaries .archetype-dot {
+    background: #a78bfa;
+}
+
+.socializers .archetype-dot {
+    background: #fb923c;
+}
+
+.thinkers .archetype-dot {
+    background: #34d399;
+}
+
+.archetype-description h4 {
+    color: #f1f5f9;
+    font-size: 14px;
+    margin: 0 0 6px;
+}
+
+.archetype-description p {
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 650px) {
+    .archetypes-section {
+        padding: 0 14px;
+        margin: 50px auto;
+    }
+
+    .archetypes-chart-card {
+        padding: 18px 12px;
+    }
+
+    .radar-chart-container {
+        height: 390px;
+    }
+
+    .archetypes-description-grid {
+        grid-template-columns: 1fr;
+    }
+}

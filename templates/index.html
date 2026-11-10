@@ -277,6 +277,72 @@
                 </div>
             </form>
 
+            
+<!-- Psychological Archetypes Section -->
+<section id="archetypesSection" class="archetypes-section">
+    <div class="section-heading">
+        <span class="section-tag">CUPID AI · PERSONALITY INSIGHTS</span>
+        <h2>Explore the <span>4 Psychological Archetypes</span></h2>
+        <p>
+            Discover how our four personality archetypes differ across
+            eight psychological dimensions.
+        </p>
+    </div>
+
+    <div class="archetypes-chart-card glass-card">
+        <div class="archetypes-chart-header">
+            <div>
+                <h3>Personality Comparison</h3>
+                <p>Average normalized scores · Scale 0–10</p>
+            </div>
+        </div>
+
+        <div class="radar-chart-container">
+            <canvas id="archetypesRadarChart"></canvas>
+        </div>
+
+        <div class="archetypes-description-grid">
+            <div class="archetype-description stabilizers">
+                <span class="archetype-dot"></span>
+                <div>
+                    <h4>The Grounded Stabilizers</h4>
+                    <p>Reliable, structured and empathetic personalities.</p>
+                </div>
+            </div>
+
+            <div class="archetype-description visionaries">
+                <span class="archetype-dot"></span>
+                <div>
+                    <h4>The Dynamic Visionaries</h4>
+                    <p>Ambitious, curious and forward-thinking personalities.</p>
+                </div>
+            </div>
+
+            <div class="archetype-description socializers">
+                <span class="archetype-dot"></span>
+                <div>
+                    <h4>The Spontaneous Socializers</h4>
+                    <p>Expressive, energetic and socially dynamic personalities.</p>
+                </div>
+            </div>
+
+            <div class="archetype-description thinkers">
+                <span class="archetype-dot"></span>
+                <div>
+                    <h4>The Independent Thinkers</h4>
+                    <p>Calm, analytical and reflective personalities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Archetypes radar chart -->
+<script src="/static/js/archetypes-radar.js"></script>
+
             <!-- Results Display Section -->
             <section id="resultsSection" class="results-section glass-card" style="display: none;">
                 <div class="results-header">
