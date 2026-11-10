@@ -21,5 +21,7 @@ __all__ = [
     "CupidHierarchicalClusterer",
     "CupidDBSCANClusterer",
     "evaluate_clustering",
-    "compute_k_distance"
+    "compute_k_distance",
+    "identify_archetype",
+    "compute_cross_archetype_affinity"
 ]
