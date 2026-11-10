@@ -2,7 +2,7 @@
 
 **Auteur :** Équipe DM_PROJECT  
 **Date :** Novembre 2026  
-**Dépôt :** `c:\Users\ENPEI\Desktop\Nouveau dossier\DM_PROJECT`
+**Dépôt :** [github.com/khaldamin/DM_PROJECT](https://github.com/khaldamin/DM_PROJECT)
 
 ---
 
@@ -418,7 +418,7 @@ python app.py
 
 ## 12. Conclusion
 
-Ce projet démontre qu'il est possible de construire un pipeline de Machine Learning complet et rigoureux pour la prédiction de compatibilité amoureuse, depuis l'exploration des données jusqu'au déploiement d'une application web.
+Ce projet démontre qu'il est possible de construire un v de Machine Learning complet et rigoureux pour la prédiction de compatibilité amoureuse, depuis l'exploration des données jusqu'au déploiement d'une application web.
 
 ### Bilan des réalisations
 

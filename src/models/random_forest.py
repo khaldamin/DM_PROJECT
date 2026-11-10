@@ -5,7 +5,7 @@ class CupidRandomForest(BaseModel):
     """
     Random Forest Classifier for Cupid Matchmaking Compatibility.
     """
-    def __init__(self, n_estimators=100, max_depth=12, min_samples_split=5, min_samples_leaf=2, n_jobs=-1, random_state=42):
+    def __init__(self, n_estimators=100, max_depth=14, min_samples_split=5, min_samples_leaf=2, n_jobs=-1, random_state=42):
         super().__init__("Random Forest")
         self.n_estimators = n_estimators
         self.max_depth = max_depth

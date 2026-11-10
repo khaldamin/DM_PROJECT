@@ -5,7 +5,7 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-tuned-green)
 ![SHAP](https://img.shields.io/badge/XAI-SHAP-purple)
 ![Flask](https://img.shields.io/badge/Flask-web--app-lightgrey?logo=flask)
-![Tests](https://img.shields.io/badge/tests-36%2F36%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-63%2F63%20passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 > **Can machine learning predict romantic compatibility and segment human temperaments?**  
@@ -88,7 +88,7 @@ DM_PROJECT/
 │   ├── figures/                             # Visualizations (ROC, SHAP, Heatmaps, PCA...)
 │   └── tables/                              # Evaluation CSVs (Comparison, Affinity...)
 ├── static/ & templates/                     # Flask Glassmorphism Frontend (HTML, CSS, JS)
-├── tests/                                   # Pytest Unit & Integration Suite (36 tests)
+├── tests/                                   # Pytest Unit & Integration Suite (63 tests)
 ├── slides_soutenance.md                     # Oral presentation slides & defense guide
 ├── rapport_final.md                         # Full academic report (12 chapters)
 └── app.py                                   # Flask web application server

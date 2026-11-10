@@ -251,7 +251,8 @@ def predict():
             dist = float(round(df_feat['personality_euclidean_dist'].iloc[0], 2))
             avg_diff = float(round(df_feat['avg_trait_diff'].iloc[0], 2))
             big5_harmony = float(round(df_feat['big5_harmony_score'].iloc[0] * 100, 1))
-            longevity = int(round(score * 0.95 + (10 - df_feat['age_diff'].iloc[0])))
+            same_love = float(df_feat['same_love_language'].iloc[0])
+            longevity = int(round(score * 0.95 + (10 - df_feat['age_diff'].iloc[0]) + (same_love * 6)))
 
             # Live SHAP Explainability Breakdown
             xai_breakdown = {"strengths": [], "frictions": []}
@@ -309,7 +310,7 @@ def predict():
                 95 - (dist * 7.5) - (age_diff * 0.8) + (same_loc * 6) + (same_love * 8)
             )))
             pred = 1 if score >= 55 else 0
-            longevity = int(round(score * 0.95 + (same_love * 12)))
+            longevity = int(round(score * 0.95 + (10 - age_diff) + (same_love * 6)))
 
             xai_fallback = {
                 "strengths": [

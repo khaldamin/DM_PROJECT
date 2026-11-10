@@ -18,9 +18,9 @@ from src.models import (
     CupidRandomForest,
     CupidXGBoost
 )
-from src.evluation.metrics import evaluate_classification_model, print_evaluation_summary
-from src.evluation.tuning import tune_hyperparameters
-from src.evluation.cross_validation import run_cross_validation
+from src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary
+from src.evaluation.tuning import tune_hyperparameters
+from src.evaluation.cross_validation import run_cross_validation
 
 
 class CupidFoldPreprocessor(BaseEstimator, TransformerMixin):

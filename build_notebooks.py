@@ -62,7 +62,7 @@ with open(os.path.join(notebooks_dir, "02_preprocessing.ipynb"), "w") as f:
 # 03_logistic_regression.ipynb
 nb3_cells = [
     make_markdown_cell("# 03. Logistic Regression Classifier\n\nBaseline linear classification model for relationship compatibility."),
-    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.logistic_regression import CupidLogisticRegression\nfrom src.evluation.metrics import evaluate_classification_model, print_evaluation_summary"),
+    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.logistic_regression import CupidLogisticRegression\nfrom src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary"),
     make_code_cell("preprocessor = CupidDataPreprocessor()\nX_train, X_test, y_train, y_test = preprocessor.prepare_train_test('../data/raw/cupid_algorithm_dataset.csv')"),
     make_code_cell("model = CupidLogisticRegression(max_iter=1000, random_state=42)\nmodel.fit(X_train, y_train)\nmetrics = evaluate_classification_model(model, X_test, y_test, 'Logistic Regression')\nprint_evaluation_summary(metrics)")
 ]
@@ -73,7 +73,7 @@ with open(os.path.join(notebooks_dir, "03_logistic_regression.ipynb"), "w") as f
 # 04_decision_tree.ipynb
 nb4_cells = [
     make_markdown_cell("# 04. Decision Tree Classifier\n\nNon-linear decision tree classifier for matchmaking."),
-    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.decision_tree import CupidDecisionTree\nfrom src.evluation.metrics import evaluate_classification_model, print_evaluation_summary"),
+    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.decision_tree import CupidDecisionTree\nfrom src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary"),
     make_code_cell("preprocessor = CupidDataPreprocessor()\nX_train, X_test, y_train, y_test = preprocessor.prepare_train_test('../data/raw/cupid_algorithm_dataset.csv')"),
     make_code_cell("model = CupidDecisionTree(max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\nmetrics = evaluate_classification_model(model, X_test, y_test, 'Decision Tree')\nprint_evaluation_summary(metrics)")
 ]
@@ -84,7 +84,7 @@ with open(os.path.join(notebooks_dir, "04_decision_tree.ipynb"), "w") as f:
 # 05_random_forest.ipynb
 nb5_cells = [
     make_markdown_cell("# 05. Random Forest Ensemble Classifier\n\nEnsemble bagger tree classifier for relationship compatibility."),
-    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.random_forest import CupidRandomForest\nfrom src.evluation.metrics import evaluate_classification_model, print_evaluation_summary"),
+    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.random_forest import CupidRandomForest\nfrom src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary"),
     make_code_cell("preprocessor = CupidDataPreprocessor()\nX_train, X_test, y_train, y_test = preprocessor.prepare_train_test('../data/raw/cupid_algorithm_dataset.csv')"),
     make_code_cell("model = CupidRandomForest(n_estimators=100, max_depth=12, random_state=42)\nmodel.fit(X_train, y_train)\nmetrics = evaluate_classification_model(model, X_test, y_test, 'Random Forest')\nprint_evaluation_summary(metrics)")
 ]
@@ -95,7 +95,7 @@ with open(os.path.join(notebooks_dir, "05_random_forest.ipynb"), "w") as f:
 # 06_xgboost.ipynb
 nb6_cells = [
     make_markdown_cell("# 06. XGBoost Gradient Boosting Classifier\n\nState-of-the-art gradient boosted decision tree classifier."),
-    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.xgboost_model import CupidXGBoost\nfrom src.evluation.metrics import evaluate_classification_model, print_evaluation_summary"),
+    make_code_cell("import sys\nsys.path.append('..')\nfrom src.data.preprocessing import CupidDataPreprocessor\nfrom src.models.xgboost_model import CupidXGBoost\nfrom src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary"),
     make_code_cell("preprocessor = CupidDataPreprocessor()\nX_train, X_test, y_train, y_test = preprocessor.prepare_train_test('../data/raw/cupid_algorithm_dataset.csv')"),
     make_code_cell("model = CupidXGBoost(n_estimators=150, max_depth=6, learning_rate=0.08, random_state=42)\nmodel.fit(X_train, y_train)\nmetrics = evaluate_classification_model(model, X_test, y_test, 'XGBoost')\nprint_evaluation_summary(metrics)")
 ]

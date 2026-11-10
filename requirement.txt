@@ -4,4 +4,9 @@ matplotlib
 seaborn
 scikit-learn
 xgboost
+shap
+flask
+scipy
+joblib
+pytest
 jupyter
