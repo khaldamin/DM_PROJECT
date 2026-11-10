@@ -174,3 +174,4 @@ Mise en œuvre des **3 grands paradigmes d'apprentissage non supervisé** :
   - Code documenté, testé (36/36 tests) et disponible en Open Source sur GitHub.
 
 **Merci pour votre attention ! Place aux questions.**
+
