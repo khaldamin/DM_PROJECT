@@ -28,7 +28,9 @@ class BaseModel(ABC):
             raise NotImplementedError(f"{self.model_name} does not support predict_proba.")
 
     def save(self, filepath: str):
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        parent = os.path.dirname(filepath)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         joblib.dump(self, filepath)
 
     @classmethod

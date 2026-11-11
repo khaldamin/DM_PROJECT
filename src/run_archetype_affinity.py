@@ -15,6 +15,7 @@ from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, os.path.abspath('.'))
 from src.models.clustering import CupidKMeansClusterer
+from src.models.archetypes import ARCHETYPE_NAMES
 
 def compute_and_plot_cluster_affinity():
     print("=" * 65)
@@ -32,7 +33,7 @@ def compute_and_plot_cluster_affinity():
     a_cols = [f'a_{feat}' for feat in profile_features]
     b_cols = [f'b_{feat}' for feat in profile_features]
 
-    # Fit clusterer on Partner A profiles (sample of 25,000 for high precision)
+    # Fit clusterer on Partner A profiles (full dataset of 100,000 for high precision)
     scaler = StandardScaler()
     X_a_scaled = scaler.fit_transform(df[a_cols].to_numpy())
     X_b_scaled = scaler.transform(df[b_cols].to_numpy())
@@ -45,12 +46,7 @@ def compute_and_plot_cluster_affinity():
     df['cluster_A'] = kmeans.predict(X_a_scaled)
     df['cluster_B'] = kmeans.predict(X_b_scaled)
 
-    archetype_names = {
-        0: "0. Grounded Stabilizers",
-        1: "1. Dynamic Visionaries",
-        2: "2. Spontaneous Socializers",
-        3: "3. Independent Thinkers"
-    }
+    archetype_names = {i: f"{i}. {name.replace('The ', '')}" for i, name in ARCHETYPE_NAMES.items()}
 
     df['archetype_A'] = df['cluster_A'].map(archetype_names)
     df['archetype_B'] = df['cluster_B'].map(archetype_names)

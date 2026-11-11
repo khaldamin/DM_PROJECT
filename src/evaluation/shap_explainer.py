@@ -73,9 +73,10 @@ class CupidExplainer:
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         plt.close()
 
-        # Parse key contributors
+        # Parse key contributors safely
         contributions = []
-        for name, val in zip(self.feature_names, instance_shap.values):
+        n_features = min(len(self.feature_names), len(instance_shap.values))
+        for name, val in zip(self.feature_names[:n_features], instance_shap.values[:n_features]):
             contributions.append({
                 "feature": name,
                 "shap_value": float(round(val, 4)),
@@ -91,4 +92,3 @@ class CupidExplainer:
             "top_drivers": contributions[:5],
             "waterfall_plot": output_path
         }
-

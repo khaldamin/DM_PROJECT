@@ -79,7 +79,7 @@ def main():
 
     # 2. Tune XGBoost on the outer training rows only. Each CV clone fits a
     # fresh preprocessor on that fold's training partition.
-    print("\n[4/5] Tuning XGBoost Model Hyperparameters...")
+    print("\n[2/5] Tuning XGBoost Model Hyperparameters via RandomizedSearchCV...")
     xgb_pipeline = Pipeline([
         ('preprocessor', CupidFoldPreprocessor(target_col='compatible')),
         ('classifier', CupidXGBoost(n_jobs=-1, random_state=42).model)
@@ -109,6 +109,8 @@ def main():
     print(f"Best XGBoost Params: {best_params}")
     print(f"Best CV F1-Score: {best_score:.4f}")
 
+    # 3. Train & Evaluate Models on Holdout Test Set
+    print("\n[3/5] Evaluating Models on Holdout Test Set...")
     # Evaluate Tuned XGBoost
     # RandomizedSearchCV refits its best pipeline on all outer-training rows.
     # The fitted sklearn pipeline's fold preprocessing and refit are used for
@@ -138,6 +140,8 @@ def main():
     tuning_df = pd.DataFrame(search.cv_results_).sort_values("rank_test_score")
     tuning_df.to_csv(os.path.join(tables_dir, "tuning_results.csv"), index=False)
 
+    # 4. Stratified K-Fold Cross-Validation
+    print("\n[4/5] Running Stratified K-Fold Cross-Validation...")
     # Save fold-wise F1 scores as true CV results, separate from test metrics.
     cv_rows = []
     for cv_name, cv_model, cv_params in [
@@ -158,8 +162,8 @@ def main():
     cv_rows.append({"Model": "Tuned XGBoost (RandomizedSearchCV)", "Fold": "Mean", "F1-Score": float(best_score)})
     pd.DataFrame(cv_rows).to_csv(os.path.join(tables_dir, "cross_validation.csv"), index=False)
 
-    # 3. Persist matching Flask wrapper artifacts trained on the full outer train.
-    print("\n[5/5] Saving Best Model...")
+    # 5. Persist matching Flask wrapper artifacts trained on the full outer train.
+    print("\n[5/5] Saving Best Model and Artifacts...")
     preprocessor_path = os.path.join(results_dir, "preprocessor.pkl")
     preprocessor.save(preprocessor_path)
     best_model_path = os.path.join(results_dir, "best_model.pkl")

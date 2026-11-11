@@ -10,6 +10,12 @@ from .clustering import (
     evaluate_clustering,
     compute_k_distance
 )
+from .archetypes import (
+    identify_archetype,
+    compute_cross_archetype_affinity,
+    ARCHETYPE_NAMES,
+    ARCHETYPE_DESCRIPTIONS
+)
 
 __all__ = [
     "BaseModel",
@@ -23,5 +29,7 @@ __all__ = [
     "evaluate_clustering",
     "compute_k_distance",
     "identify_archetype",
-    "compute_cross_archetype_affinity"
+    "compute_cross_archetype_affinity",
+    "ARCHETYPE_NAMES",
+    "ARCHETYPE_DESCRIPTIONS"
 ]

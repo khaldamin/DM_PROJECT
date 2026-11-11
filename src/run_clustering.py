@@ -29,6 +29,7 @@ from src.models.clustering import (
     evaluate_clustering,
     compute_k_distance
 )
+from src.models.archetypes import ARCHETYPE_FULL_LABELS
 
 def run_clustering_pipeline():
     print("=" * 65)
@@ -233,12 +234,7 @@ def run_clustering_pipeline():
     cluster_profiles['Profile_Count'] = cluster_sizes
     cluster_profiles['Percentage'] = (cluster_sizes / len(df_sample) * 100).round(1)
 
-    archetype_names = {
-        0: "The Grounded Stabilizers (High Agreeableness & Conscientiousness)",
-        1: "The Dynamic Visionaries (High Openness & Ambition)",
-        2: "The Spontaneous Socializers (High Extraversion & Spontaneity)",
-        3: "The Independent Thinkers (Low Extraversion, High Conscientiousness)"
-    }
+    archetype_names = ARCHETYPE_FULL_LABELS
     cluster_profiles['Archetype_Name'] = [archetype_names.get(i, f"Archetype {i}") for i in cluster_profiles.index]
 
     # Reorder columns

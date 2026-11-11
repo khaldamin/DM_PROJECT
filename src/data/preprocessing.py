@@ -149,7 +149,10 @@ class CupidDataPreprocessor:
         """
         Save preprocessor object to disk.
         """
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        # AMELIO-3 FIX: os.path.dirname("file.pkl") returns "" -> guard against empty parent.
+        parent = os.path.dirname(filepath)
+        if parent:
+            os.makedirs(parent, exist_ok=True)
         joblib.dump(self, filepath)
 
     @classmethod

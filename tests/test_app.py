@@ -91,3 +91,23 @@ def test_app_predict_compatibility_bounds(client, valid_pair_payload):
     longevity = data["estimated_longevity_months"]
     assert 3 <= longevity <= 120
 
+def test_app_predict_contains_archetypes(client, valid_pair_payload):
+    response = client.post('/api/predict', json=valid_pair_payload)
+    assert response.status_code == 200
+    data = response.get_json()
+    assert "archetype_a" in data
+    assert "archetype_b" in data
+    assert "archetype_affinity" in data
+    assert "name" in data["archetype_a"]
+    assert "affinity_pct" in data["archetype_affinity"]
+
+def test_app_predict_normalizes_1_to_10_traits_seamlessly(client, valid_pair_payload):
+    # Scale all traits to 1-10
+    payload_10 = valid_pair_payload.copy()
+    for k in ["a_career_ambition", "b_career_ambition", "a_openness", "b_openness", "a_extraversion", "b_extraversion"]:
+        payload_10[k] = payload_10[k] * 10.0
+    response = client.post('/api/predict', json=payload_10)
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data["success"] is True
+    assert 0.0 <= data["compatibility_score"] <= 100.0

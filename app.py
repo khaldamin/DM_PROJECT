@@ -7,7 +7,12 @@ import shap
 from flask import Flask, jsonify, render_template, request
 
 from src.data.preprocessing import CupidDataPreprocessor
-from src.models import BaseModel, CupidXGBoost
+from src.models import (
+    BaseModel,
+    CupidXGBoost,
+    identify_archetype,
+    compute_cross_archetype_affinity
+)
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -39,6 +44,11 @@ REQUIRED_STRING_FIELDS = [
 ]
 
 REQUIRED_FIELDS = REQUIRED_NUMERIC_FIELDS + REQUIRED_STRING_FIELDS
+
+TRAIT_NAMES = [
+    "openness", "extraversion", "agreeableness", "conscientiousness",
+    "chronotype", "spontaneity", "emotional_expressiveness", "career_ambition"
+]
 
 
 # ---------------------------------------------------------------------------
@@ -107,7 +117,6 @@ def build_xai_breakdown(shap_values, feature_names):
 
     for name, val in zip(feature_names, shap_values):
         clean_name = name.replace("num__", "").replace("cat__", "")
-        # Filter raw one-hots or low signal features if needed
         label, desc = format_feature_name(name)
         pct = round((abs(val) / total_abs) * 100)
         pairs.append({
@@ -237,10 +246,28 @@ def predict():
         return jsonify({"success": False, "error": error_msg}), 400
 
     try:
-        df_single = pd.DataFrame([data])
+        # Standardize trait scale: if client sends 1-10 scale (UI sliders), normalize to 0-1 range expected by the ML model
+        normalized_data = dict(data)
+        for p in ['a', 'b']:
+            for t in TRAIT_NAMES:
+                key = f"{p}_{t}"
+                if key in normalized_data:
+                    val = float(normalized_data[key])
+                    if val > 1.0:
+                        normalized_data[key] = val / 10.0
+
+        # Archetype Profiling
+        archetype_a = identify_archetype(data, prefix="a_")
+        archetype_b = identify_archetype(data, prefix="b_")
+        archetype_affinity = compute_cross_archetype_affinity(archetype_a["id"], archetype_b["id"])
+
+        age_diff = abs(float(data['a_age']) - float(data['b_age']))
+        same_love = 1.0 if data['a_love_language'] == data['b_love_language'] else 0.0
+        age_bonus = max(-10.0, min(10.0, 10.0 - age_diff))
 
         if BEST_MODEL is not None and PREPROCESSOR is not None:
             # ---- ML model path ----
+            df_single = pd.DataFrame([normalized_data])
             X_trans = PREPROCESSOR.transform(df_single)
             proba = BEST_MODEL.predict_proba(X_trans)[0, 1]
             pred = int(BEST_MODEL.predict(X_trans)[0])
@@ -251,8 +278,7 @@ def predict():
             dist = float(round(df_feat['personality_euclidean_dist'].iloc[0], 2))
             avg_diff = float(round(df_feat['avg_trait_diff'].iloc[0], 2))
             big5_harmony = float(round(df_feat['big5_harmony_score'].iloc[0] * 100, 1))
-            same_love = float(df_feat['same_love_language'].iloc[0])
-            longevity = int(round(score * 0.95 + (10 - df_feat['age_diff'].iloc[0]) + (same_love * 6)))
+            longevity = int(round(score * 0.95 + age_bonus + (same_love * 6)))
 
             # Live SHAP Explainability Breakdown
             xai_breakdown = {"strengths": [], "frictions": []}
@@ -284,33 +310,34 @@ def predict():
                 "big5_harmony_score": big5_harmony,
                 "avg_trait_diff": avg_diff,
                 "personality_distance": dist,
+                "archetype_a": archetype_a,
+                "archetype_b": archetype_b,
+                "archetype_affinity": archetype_affinity,
                 "xai_breakdown": xai_breakdown,
             })
 
         else:
             # ---- Fallback: mathematical model ----
-            age_diff = abs(float(data['a_age']) - float(data['b_age']))
             same_loc = 1.0 if data['a_location'] == data['b_location'] else 0.0
-            same_love = 1.0 if data['a_love_language'] == data['b_love_language'] else 0.0
 
             trait_diffs = [
-                abs(float(data['a_openness']) - float(data['b_openness'])),
-                abs(float(data['a_extraversion']) - float(data['b_extraversion'])),
-                abs(float(data['a_agreeableness']) - float(data['b_agreeableness'])),
-                abs(float(data['a_conscientiousness']) - float(data['b_conscientiousness'])),
-                abs(float(data['a_chronotype']) - float(data['b_chronotype'])),
-                abs(float(data['a_spontaneity']) - float(data['b_spontaneity'])),
-                abs(float(data['a_emotional_expressiveness']) - float(data['b_emotional_expressiveness'])),
-                abs(float(data['a_career_ambition']) - float(data['b_career_ambition'])),
+                abs(float(normalized_data['a_openness']) - float(normalized_data['b_openness'])),
+                abs(float(normalized_data['a_extraversion']) - float(normalized_data['b_extraversion'])),
+                abs(float(normalized_data['a_agreeableness']) - float(normalized_data['b_agreeableness'])),
+                abs(float(normalized_data['a_conscientiousness']) - float(normalized_data['b_conscientiousness'])),
+                abs(float(normalized_data['a_chronotype']) - float(normalized_data['b_chronotype'])),
+                abs(float(normalized_data['a_spontaneity']) - float(normalized_data['b_spontaneity'])),
+                abs(float(normalized_data['a_emotional_expressiveness']) - float(normalized_data['b_emotional_expressiveness'])),
+                abs(float(normalized_data['a_career_ambition']) - float(normalized_data['b_career_ambition'])),
             ]
             dist = float(np.sqrt(sum(x ** 2 for x in trait_diffs)))
             avg_diff = float(np.mean(trait_diffs))
 
             score = float(max(10, min(99,
-                95 - (dist * 7.5) - (age_diff * 0.8) + (same_loc * 6) + (same_love * 8)
+                95 - (dist * 25.0) - (age_diff * 0.8) + (same_loc * 6) + (same_love * 8)
             )))
             pred = 1 if score >= 55 else 0
-            longevity = int(round(score * 0.95 + (10 - age_diff) + (same_love * 6)))
+            longevity = int(round(score * 0.95 + age_bonus + (same_love * 6)))
 
             xai_fallback = {
                 "strengths": [
@@ -329,9 +356,12 @@ def predict():
                 "compatibility_score": score,
                 "compatible": pred,
                 "estimated_longevity_months": max(3, min(120, longevity)),
-                "big5_harmony_score": round(max(0.0, 100.0 - avg_diff * 15), 1),
+                "big5_harmony_score": round(max(0.0, 100.0 - avg_diff * 50), 1),
                 "avg_trait_diff": round(avg_diff, 2),
                 "personality_distance": round(dist, 2),
+                "archetype_a": archetype_a,
+                "archetype_b": archetype_b,
+                "archetype_affinity": archetype_affinity,
                 "xai_breakdown": xai_fallback,
             })
 

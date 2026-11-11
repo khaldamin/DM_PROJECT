@@ -13,6 +13,13 @@ ARCHETYPE_NAMES: Dict[int, str] = {
     3: "The Independent Thinkers"
 }
 
+ARCHETYPE_FULL_LABELS: Dict[int, str] = {
+    0: "The Grounded Stabilizers (High Agreeableness & Conscientiousness)",
+    1: "The Dynamic Visionaries (High Openness & Ambition)",
+    2: "The Spontaneous Socializers (High Extraversion & Spontaneity)",
+    3: "The Independent Thinkers (Low Extraversion, High Conscientiousness)"
+}
+
 ARCHETYPE_DESCRIPTIONS: Dict[int, str] = {
     0: "Personnalité fiable, structurée et empathique (Agreeableness & Conscientiousness élevées).",
     1: "Profil ambitieux, curieux et leader (Openness & Ambition élevées).",

@@ -5,7 +5,7 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-tuned-green)
 ![SHAP](https://img.shields.io/badge/XAI-SHAP-purple)
 ![Flask](https://img.shields.io/badge/Flask-web--app-lightgrey?logo=flask)
-![Tests](https://img.shields.io/badge/tests-63%2F63%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-68%2F68%20passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 > **Can machine learning predict romantic compatibility and segment human temperaments?**  
