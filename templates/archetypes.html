@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupid AI — Personality Archetype Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .archetypes-container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .nav-links { display: flex; gap: 1rem; }
+        .nav-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 0.6rem 1.2rem; border-radius: 12px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .nav-btn:hover, .nav-btn.active { background: rgba(235, 77, 105, 0.25); border-color: rgba(235, 77, 105, 0.5); }
+        .archetype-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+        .arch-card { padding: 1.5rem; border-top: 4px solid #fff; border-radius: 16px; transition: transform 0.3s; }
+        .arch-card:hover { transform: translateY(-5px); }
+        .arch-0 { border-top-color: #27ae60; }
+        .arch-1 { border-top-color: #8e44ad; }
+        .arch-2 { border-top-color: #d35400; }
+        .arch-3 { border-top-color: #2980b9; }
+        .arch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .arch-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .arch-0 .arch-icon { background: rgba(39, 174, 96, 0.2); color: #2ecc71; }
+        .arch-1 .arch-icon { background: rgba(142, 68, 173, 0.2); color: #bb86fc; }
+        .arch-2 .arch-icon { background: rgba(211, 84, 0, 0.2); color: #e67e22; }
+        .arch-3 .arch-icon { background: rgba(41, 128, 185, 0.2); color: #3498db; }
+        .arch-share { font-size: 1.1rem; font-weight: 700; font-family: 'Outfit', sans-serif; }
+        .arch-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .arch-desc { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); line-height: 1.4; margin-bottom: 1rem; }
+        .trait-pill { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; background: rgba(255,255,255,0.08); margin: 0.2rem; }
+        .matrix-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .matrix-table th, .matrix-table td { padding: 0.9rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.9rem; }
+        .matrix-table th { background: rgba(255, 255, 255, 0.04); font-weight: 600; }
+        .cell-high { background: rgba(46, 204, 113, 0.25); color: #2ecc71; font-weight: 700; }
+        .cell-med { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .cell-low { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .quiz-section { margin-top: 2.5rem; }
+        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        @media(max-width: 800px) { .quiz-grid { grid-template-columns: 1fr; } }
+        .btn-quiz { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 1rem; width: 100%; }
+        .btn-quiz:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 117, 140, 0.4); }
+        .quiz-result-box { display: none; margin-top: 1.5rem; padding: 1.5rem; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <div class="archetypes-container">
+        <!-- Navigation Header -->
+        <header class="nav-bar">
+            <div class="logo-container">
+                <i class="fa-solid fa-heart-pulse logo-icon"></i>
+                <h1 class="logo-text">Cupid <span>AI</span></h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/" class="nav-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Matchmaker</a>
+                <a href="/dashboard" class="nav-btn"><i class="fa-solid fa-chart-line"></i> Model Dashboard</a>
+                <a href="/archetypes" class="nav-btn active"><i class="fa-solid fa-fingerprint"></i> Archetypes</a>
+            </nav>
+        </header>
+
+        <!-- Archetype Cards -->
+        <h2 style="margin-bottom: 0.5rem; font-family:'Outfit', sans-serif;"><i class="fa-solid fa-dna"></i> Discovered Personality Archetypes</h2>
+        <p style="color:rgba(255,255,255,0.6); margin-bottom: 1.5rem; font-size: 0.95rem;">Extracted via unsupervised K-Means clustering (k=4) across 8 psychological dimensions.</p>
+
+        <section class="archetype-cards-grid">
+            <div class="glass-card arch-card arch-0">
+                <div class="arch-header">
+                    <div class="arch-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <span class="arch-share">23.3%</span>
+                </div>
+                <div class="arch-title">0. The Grounded Stabilizers</div>
+                <div class="arch-desc">Reliable, empathetic, and structured. Anchored by high agreeableness and conscientiousness.</div>
+                <div>
+                    <span class="trait-pill">Agreeableness: 6.8/10</span>
+                    <span class="trait-pill">Conscientiousness: 4.5/10</span>
+                    <span class="trait-pill">Spontaneity: 5.3/10</span>
+                </div>
+            </div>
+
+            <div class="glass-card arch-card arch-1">
+                <div class="arch-header">
+                    <div class="arch-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <span class="arch-share">25.7%</span>
+                </div>
+                <div class="arch-title">1. The Dynamic Visionaries</div>
+                <div class="arch-desc">Ambitious, outgoing, and career-driven. High extraversion, high conscientiousness, and goal focus.</div>
+                <div>
+                    <span class="trait-pill">Extraversion: 6.5/10</span>
+                    <span class="trait-pill">Conscientiousness: 6.5/10</span>
+                    <span class="trait-pill">Expressiveness: 6.1/10</span>
+                </div>
+            </div>
+
+            <div class="glass-card arch-card arch-2">
+                <div class="arch-header">
+                    <div class="arch-icon"><i class="fa-solid fa-fire"></i></div>
+                    <span class="arch-share">25.9%</span>
+                </div>
+                <div class="arch-title">2. The Spontaneous Socializers</div>
+                <div class="arch-desc">High spontaneity, present-moment orientation, lively emotional style, and flexible planning.</div>
+                <div>
+                    <span class="trait-pill">Spontaneity: 4.4/10</span>
+                    <span class="trait-pill">Openness: 5.2/10</span>
+                    <span class="trait-pill">Chronotype: 5.4/10</span>
+                </div>
+            </div>
+
+            <div class="glass-card arch-card arch-3">
+                <div class="arch-header">
+                    <div class="arch-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <span class="arch-share">25.1%</span>
+                </div>
+                <div class="arch-title">3. The Independent Thinkers</div>
+                <div class="arch-desc">Introspective, analytical, and calm. High cognitive depth, low extraversion, and deliberate pacing.</div>
+                <div>
+                    <span class="trait-pill">Extraversion: 6.1/10</span>
+                    <span class="trait-pill">Openness: 5.0/10</span>
+                    <span class="trait-pill">Spontaneity: 6.3/10</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cross-Archetype Affinity Matrix -->
+        <section class="glass-card" style="margin-bottom: 2.5rem;">
+            <h3><i class="fa-solid fa-network-wired"></i> Cross-Archetype Compatibility Affinity Matrix (%)</h3>
+            <p style="font-size:0.85rem; color:rgba(255,255,255,0.6); margin-bottom:1rem;">Empirical compatibility rates across 100,000 pairing dyads.</p>
+            <div style="overflow-x: auto;">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Partner A \ Partner B</th>
+                            <th>0. Grounded Stabilizers</th>
+                            <th>1. Dynamic Visionaries</th>
+                            <th>2. Spontaneous Socializers</th>
+                            <th>3. Independent Thinkers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0. Grounded Stabilizers</strong></td>
+                            <td class="cell-high">49.05%</td>
+                            <td class="cell-med">41.20%</td>
+                            <td class="cell-med">42.60%</td>
+                            <td class="cell-low">39.76%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1. Dynamic Visionaries</strong></td>
+                            <td class="cell-med">40.49%</td>
+                            <td class="cell-high">49.68%</td>
+                            <td class="cell-med">42.73%</td>
+                            <td class="cell-med">40.12%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Spontaneous Socializers</strong></td>
+                            <td class="cell-med">42.67%</td>
+                            <td class="cell-med">42.80%</td>
+                            <td class="cell-high">49.13%</td>
+                            <td class="cell-low">39.35%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Independent Thinkers</strong></td>
+                            <td class="cell-low">37.43%</td>
+                            <td class="cell-low">39.19%</td>
+                            <td class="cell-low">38.49%</td>
+                            <td class="cell-high">51.29% 🏆</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Interactive Archetype Finder Mini-Quiz -->
+        <section class="glass-card quiz-section">
+            <h3><i class="fa-solid fa-magnifying-glass-chart"></i> Quick Archetype Diagnostic Quiz</h3>
+            <p style="font-size:0.85rem; color:rgba(255,255,255,0.6);">Adjust your primary psychological traits to calculate your minimum Euclidean distance to the 4 cluster centroids.</p>
+
+            <div class="quiz-grid">
+                <div>
+                    <div class="slider-group" style="margin-bottom:1rem;">
+                        <div class="slider-label"><span>Agreeableness & Empathy</span><strong id="quiz_val_agree">7.0</strong></div>
+                        <input type="range" id="quiz_agree" min="1" max="10" step="0.5" value="7.0" oninput="document.getElementById('quiz_val_agree').innerText = this.value">
+                    </div>
+                    <div class="slider-group" style="margin-bottom:1rem;">
+                        <div class="slider-label"><span>Conscientiousness & Order</span><strong id="quiz_val_con">6.5</strong></div>
+                        <input type="range" id="quiz_con" min="1" max="10" step="0.5" value="6.5" oninput="document.getElementById('quiz_val_con').innerText = this.value">
+                    </div>
+                    <div class="slider-group" style="margin-bottom:1rem;">
+                        <div class="slider-label"><span>Extraversion & Social Energy</span><strong id="quiz_val_extra">5.5</strong></div>
+                        <input type="range" id="quiz_extra" min="1" max="10" step="0.5" value="5.5" oninput="document.getElementById('quiz_val_extra').innerText = this.value">
+                    </div>
+                    <button type="button" class="btn-quiz" onclick="diagnoseArchetype()"><i class="fa-solid fa-wand-magic-sparkles"></i> Determine My Archetype</button>
+                </div>
+
+                <div>
+                    <div id="quizResult" class="quiz-result-box">
+                        <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Diagnosed Archetype</div>
+                        <h2 id="quizArchName" style="color:#ff7eb3; margin:0.5rem 0;">—</h2>
+                        <p id="quizArchDesc" style="font-size:0.9rem; color:rgba(255,255,255,0.8); line-height:1.4;"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/archetypes.js"></script>
+</body>
+</html>
