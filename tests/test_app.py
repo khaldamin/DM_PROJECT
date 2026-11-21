@@ -31,6 +31,14 @@ def test_app_index_route(client):
     response = client.get('/')
     assert response.status_code == 200
 
+def test_app_dashboard_route(client):
+    response = client.get('/dashboard')
+    assert response.status_code == 200
+
+def test_app_archetypes_route(client):
+    response = client.get('/archetypes')
+    assert response.status_code == 200
+
 def test_app_health_route(client):
     response = client.get('/api/health')
     assert response.status_code == 200

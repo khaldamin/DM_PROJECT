@@ -57,10 +57,15 @@ def test_ui_templates_and_scripts_exist():
 
 
 def test_enhanced_routes_blueprint_import():
-    """Verify that the enhanced routes Blueprint can be imported cleanly."""
+    """Verify that the enhanced routes Blueprint can be imported and registered cleanly."""
+    from flask import Flask
     from src.api.enhanced_routes import enhanced_bp
     assert enhanced_bp.name == "enhanced"
-    assert "/dashboard" in [rule.rule for rule in enhanced_bp.deferred_functions or []] or True
+    dummy_app = Flask("test_dummy")
+    dummy_app.register_blueprint(enhanced_bp)
+    rules = [rule.rule for rule in dummy_app.url_map.iter_rules()]
+    assert "/dashboard" in rules
+    assert "/archetypes" in rules
 
 
 def test_existing_project_artifacts_untouched():

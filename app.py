@@ -16,6 +16,12 @@ from src.models import (
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
+try:
+    from src.api.enhanced_routes import enhanced_bp
+    app.register_blueprint(enhanced_bp)
+except Exception as _e_bp:
+    print(f"Notice: enhanced routes blueprint could not be loaded: {_e_bp}")
+
 BEST_MODEL = None
 PREPROCESSOR = None
 EXPLAINER = None
