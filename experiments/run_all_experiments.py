@@ -9,6 +9,13 @@ import sys
 import time
 import subprocess
 
+# Ensure UTF-8 output on Windows console
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 SCRIPTS = [
     ("Diagnostic Error Analysis & Calibration", "experiments/error_analysis.py"),
     ("Feature Engineering Ablation Study", "experiments/ablation_study.py"),
@@ -55,15 +62,15 @@ def run_all():
             res = subprocess.run([sys.executable, script_path], check=True, text=True, capture_output=False)
             elapsed = time.time() - start_step
             status = "SUCCESS"
-            print(f"✓ Completed in {elapsed:.1f}s")
+            print(f"[OK] Completed in {elapsed:.1f}s")
         except subprocess.CalledProcessError as e:
             elapsed = time.time() - start_step
             status = "FAILED"
-            print(f"✗ Failed in {elapsed:.1f}s (Exit code: {e.returncode})")
+            print(f"[FAIL] Failed in {elapsed:.1f}s (Exit code: {e.returncode})")
         except Exception as ex:
             elapsed = time.time() - start_step
             status = "ERROR"
-            print(f"✗ Exception: {ex}")
+            print(f"[ERROR] Exception: {ex}")
 
         results_summary.append({
             "Experiment": name,
@@ -77,7 +84,7 @@ def run_all():
     print(" Experiments Execution Summary")
     print("==================================================")
     for r in results_summary:
-        symbol = "✓" if r["Status"] == "SUCCESS" else "✗"
+        symbol = "[OK]  " if r["Status"] == "SUCCESS" else "[FAIL]"
         print(f"{symbol} {r['Experiment']:40s} : {r['Status']} ({r['Duration_Seconds']}s)")
     print(f"\nTotal elapsed time: {total_elapsed / 60:.1f} minutes")
     print("==================================================")

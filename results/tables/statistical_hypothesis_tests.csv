@@ -1,0 +1,4 @@
+Comparison,XGBoost_Mean_F1,Baseline_Mean_F1,Mean_Difference,Wilcoxon_Statistic,p_value,Significant_at_alpha_0_05
+XGBoost vs Logistic Regression,0.6517,0.6552,-0.0035,11.0,0.958008,False
+XGBoost vs Decision Tree,0.6517,0.6017,0.05,55.0,0.000977,True
+XGBoost vs Random Forest,0.6517,0.6347,0.017,55.0,0.000977,True

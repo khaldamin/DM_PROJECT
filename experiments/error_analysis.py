@@ -100,7 +100,7 @@ def run_error_analysis():
     plt.hist(y_proba[y_test == 1], bins=40, alpha=0.6, color='#2ecc71', label='True Compatible ($y=1$)', density=True)
     plt.axvline(x=0.5, color='black', linestyle=':', label='Decision Threshold (0.5)')
     plt.title("Estimated Compatibility Probability Distribution by Ground Truth", fontsize=12, fontweight='bold', pad=12)
-    plt.xlabel("Predicted Compatibility Probability $\hat{p}$", fontsize=11)
+    plt.xlabel(r"Predicted Compatibility Probability $\hat{p}$", fontsize=11)
     plt.ylabel("Density", fontsize=11)
     plt.legend(loc='upper center', fontsize=10)
     plt.grid(True, linestyle='--', alpha=0.5)
