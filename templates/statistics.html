@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistical Analysis | Cupid</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f6fa;
+            color: #263445;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .back {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        header {
+            margin: 30px 0;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .summary-card span {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .summary-card h2 {
+            margin: 10px 0 0;
+            font-size: 28px;
+        }
+
+        .tests {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .test-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            border-top: 4px solid #64748b;
+        }
+
+        .test-card h2 {
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .objective {
+            color: #64748b;
+            line-height: 1.5;
+            min-height: 45px;
+        }
+
+        .hypothesis {
+            background: #f8fafc;
+            padding: 13px;
+            border-radius: 8px;
+            margin: 12px 0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .metrics {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .metric {
+            flex: 1;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 9px;
+        }
+
+        .metric span {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 19px;
+            overflow-wrap: anywhere;
+        }
+
+        .result {
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .significant {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .not-significant {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding: 18px;
+            background: white;
+            border-radius: 10px;
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        @media(max-width: 800px) {
+            .tests {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="/" class="back">← Back to Dashboard</a>
+
+    <header>
+        <h1>Formal Statistical Analysis</h1>
+        <p>
+            Statistical hypothesis testing to investigate relationships
+            between profile characteristics, compatibility and
+            relationship longevity.
+        </p>
+    </header>
+
+    <section class="summary">
+
+        <div class="summary-card">
+            <span>Statistical Tests</span>
+            <h2>{{ results|length }}</h2>
+        </div>
+
+        <div class="summary-card">
+            <span>Significance Level</span>
+            <h2>α = 0.05</h2>
+        </div>
+
+        <div class="summary-card">
+            <span>Significant Results</span>
+            <h2>{{ results|selectattr('p_value', 'lt', 0.05)|list|length }}</h2>
+        </div>
+
+    </section>
+
+    <section class="tests">
+
+        {% for test in results %}
+
+        <div class="test-card">
+
+            <h2>{{ test.name }}</h2>
+
+            <p class="objective">
+                {{ test.objective }}
+            </p>
+
+            <div class="hypothesis">
+                <strong>H₀ — Null hypothesis</strong><br>
+                {{ test.h0 }}
+            </div>
+
+            <div class="hypothesis">
+                <strong>H₁ — Alternative hypothesis</strong><br>
+                {{ test.h1 }}
+            </div>
+
+            <div class="metrics">
+
+                <div class="metric">
+                    <span>Test Statistic</span>
+                    <strong>{{ test.statistic }}</strong>
+                </div>
+
+                <div class="metric">
+                    <span>P-value</span>
+                    <strong>{{ test.p_value }}</strong>
+                </div>
+
+            </div>
+
+            <div class="result
+                {% if test.p_value < 0.05 %}
+                    significant
+                {% else %}
+                    not-significant
+                {% endif %}">
+
+                <strong>
+                    {% if test.p_value < 0.05 %}
+                        Statistically significant
+                    {% else %}
+                        Not statistically significant
+                    {% endif %}
+                </strong>
+
+                <br>
+
+                {{ test.conclusion }}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+    <div class="footer-note">
+        <strong>Interpretation note:</strong>
+        A p-value below 0.05 indicates statistically significant
+        evidence against the null hypothesis at the 5% significance
+        level. Statistical significance does not necessarily imply
+        practical importance or causation.
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -53,6 +53,24 @@
                 </div>
             </section>
 
+            <!-- Batch Inference Section -->
+            <section class="presets-section glass-card">
+                <h3>
+                    <i class="fa-solid fa-file-csv"></i>
+                    Batch Inference
+                </h3>
+
+                <p>
+                    Upload a CSV file to predict compatibility
+                    for multiple couples simultaneously.
+                </p>
+
+                <a href="{{ url_for('batch_inference') }}" class="btn-primary">
+                    <i class="fa-solid fa-upload"></i>
+                    Open Batch Inference
+                </a>
+            </section>
+
             <!-- Profiles Form Grid -->
             <form id="compatibilityForm" onsubmit="event.preventDefault(); predictCompatibility();">
                 <div class="profiles-grid">
