@@ -1,0 +1,5 @@
+Approach,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+1. Baseline Tuned XGBoost (th=0.50),0.7265,0.7042,0.6242,0.6618,0.7969
+2. Threshold Tuned XGBoost (th=0.51),0.7265,0.7101,0.6119,0.6574,0.7969
+3. XGBoost Regressor on Continuous Score,0.7266,0.7065,0.6198,0.6603,0.7996
+4. Weighted Soft Voting Ensemble,0.7264,0.7054,0.6214,0.6607,0.7982

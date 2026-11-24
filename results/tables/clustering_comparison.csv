@@ -1,0 +1,4 @@
+Algorithm,N_Clusters,N_Noise,Noise_Ratio,Silhouette_Score,Davies_Bouldin_Index,Calinski_Harabasz_Score
+K-Means (k=4),4,0,0.0,0.0851,2.4191,1310.61
+Hierarchical Ward (k=4),4,0,0.0,0.0277,3.2865,239.2
+DBSCAN (eps=1.85),1,23,0.0015,,,

@@ -548,6 +548,150 @@ input[type="range"] {
     border-radius: var(--radius-sm);
 }
 
+/* Live XAI Explainability Section */
+.xai-box {
+    margin-bottom: 24px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+
+.xai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.xai-title h3 {
+    font-size: 1.15rem;
+    color: #67e8f9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.xai-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.xai-badge {
+    background: rgba(103, 232, 249, 0.12);
+    border: 1px solid rgba(103, 232, 249, 0.3);
+    color: #67e8f9;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.xai-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.xai-col {
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    background: rgba(10, 15, 26, 0.55);
+}
+
+.strengths-col {
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
+}
+
+.strengths-col h4 {
+    color: #34d399;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.frictions-col {
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.08);
+}
+
+.frictions-col h4 {
+    color: #fbbf24;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.xai-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.xai-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: transform var(--transition-fast);
+}
+
+.xai-item:hover {
+    transform: translateX(4px);
+}
+
+.xai-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.xai-item-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-bright);
+}
+
+.xai-item-detail {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.xai-impact-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.xai-impact-badge.pos {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.xai-impact-badge.neg {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
 .advice-card h3 {
     font-size: 1.1rem;
     color: #d8b4fe;
@@ -582,4 +726,149 @@ input[type="range"] {
     margin-top: 40px;
     color: var(--text-muted);
     font-size: 0.85rem;
+}
+
+/* ================================
+   PSYCHOLOGICAL ARCHETYPES SECTION
+================================ */
+
+.archetypes-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 24px;
+}
+
+.archetypes-section .section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.archetypes-section .section-tag {
+    color: #a78bfa;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.archetypes-section .section-heading h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    margin: 12px 0;
+}
+
+.archetypes-section .section-heading h2 span {
+    background: linear-gradient(90deg, #a78bfa, #38bdf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.archetypes-section .section-heading p {
+    color: #94a3b8;
+    font-size: 15px;
+}
+
+.archetypes-chart-card {
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(16px);
+}
+
+.archetypes-chart-header {
+    margin-bottom: 20px;
+}
+
+.archetypes-chart-header h3 {
+    color: #f8fafc;
+    font-size: 21px;
+    margin: 0 0 6px;
+}
+
+.archetypes-chart-header p {
+    color: #94a3b8;
+    font-size: 13px;
+    margin: 0;
+}
+
+.radar-chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    height: 520px;
+    margin: 0 auto;
+}
+
+.archetypes-description-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.archetype-description {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.archetype-dot {
+    flex-shrink: 0;
+    width: 11px;
+    height: 11px;
+    margin-top: 5px;
+    border-radius: 50%;
+}
+
+.stabilizers .archetype-dot {
+    background: #38bdf8;
+}
+
+.visionaries .archetype-dot {
+    background: #a78bfa;
+}
+
+.socializers .archetype-dot {
+    background: #fb923c;
+}
+
+.thinkers .archetype-dot {
+    background: #34d399;
+}
+
+.archetype-description h4 {
+    color: #f1f5f9;
+    font-size: 14px;
+    margin: 0 0 6px;
+}
+
+.archetype-description p {
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (max-width: 650px) {
+    .archetypes-section {
+        padding: 0 14px;
+        margin: 50px auto;
+    }
+
+    .archetypes-chart-card {
+        padding: 18px 12px;
+    }
+
+    .radar-chart-container {
+        height: 390px;
+    }
+
+    .archetypes-description-grid {
+        grid-template-columns: 1fr;
+    }
 }

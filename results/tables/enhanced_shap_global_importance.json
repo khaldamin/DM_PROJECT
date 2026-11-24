@@ -1,0 +1,77 @@
+[
+    {
+        "rank": 1,
+        "feature": "same_love_language",
+        "mean_abs_shap": 0.6251000165939331
+    },
+    {
+        "rank": 2,
+        "feature": "avg_trait_diff",
+        "mean_abs_shap": 0.5144000053405762
+    },
+    {
+        "rank": 3,
+        "feature": "diff_career_ambition",
+        "mean_abs_shap": 0.3488999903202057
+    },
+    {
+        "rank": 4,
+        "feature": "diff_emotional_expressiveness",
+        "mean_abs_shap": 0.26100000739097595
+    },
+    {
+        "rank": 5,
+        "feature": "same_location",
+        "mean_abs_shap": 0.1371999979019165
+    },
+    {
+        "rank": 6,
+        "feature": "age_diff",
+        "mean_abs_shap": 0.12210000306367874
+    },
+    {
+        "rank": 7,
+        "feature": "same_career_field",
+        "mean_abs_shap": 0.1185000017285347
+    },
+    {
+        "rank": 8,
+        "feature": "personality_euclidean_dist",
+        "mean_abs_shap": 0.0868000015616417
+    },
+    {
+        "rank": 9,
+        "feature": "diff_spontaneity",
+        "mean_abs_shap": 0.08609999716281891
+    },
+    {
+        "rank": 10,
+        "feature": "personality_similarity_index",
+        "mean_abs_shap": 0.07370000332593918
+    },
+    {
+        "rank": 11,
+        "feature": "diff_openness",
+        "mean_abs_shap": 0.05869999900460243
+    },
+    {
+        "rank": 12,
+        "feature": "big5_harmony_score",
+        "mean_abs_shap": 0.05570000037550926
+    },
+    {
+        "rank": 13,
+        "feature": "diff_agreeableness",
+        "mean_abs_shap": 0.053700000047683716
+    },
+    {
+        "rank": 14,
+        "feature": "education_diff",
+        "mean_abs_shap": 0.04899999871850014
+    },
+    {
+        "rank": 15,
+        "feature": "diff_conscientiousness",
+        "mean_abs_shap": 0.043800000101327896
+    }
+]

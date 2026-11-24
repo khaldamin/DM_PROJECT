@@ -5,7 +5,7 @@ class CupidDecisionTree(BaseModel):
     """
     Decision Tree Classifier for Cupid Matchmaking Compatibility.
     """
-    def __init__(self, max_depth=10, min_samples_split=2, min_samples_leaf=1, criterion='gini', random_state=42):
+    def __init__(self, max_depth=12, min_samples_split=10, min_samples_leaf=1, criterion='gini', random_state=42):
         super().__init__("Decision Tree")
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split

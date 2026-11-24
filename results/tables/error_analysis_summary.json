@@ -1,0 +1,12 @@
+{
+    "PR_AUC": 0.7493,
+    "Brier_Score": 0.1808,
+    "Confusion_Matrix": {
+        "True_Negative": 9176,
+        "False_Positive": 2248,
+        "False_Negative": 3223,
+        "True_Positive": 5353
+    },
+    "False_Positive_Rate": 0.1968,
+    "False_Negative_Rate": 0.3758
+}

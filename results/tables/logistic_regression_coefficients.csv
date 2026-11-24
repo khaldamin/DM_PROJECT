@@ -1,0 +1,74 @@
+Variable,Groupe,Coefficient,Odds ratio
+same_love_language,construite,0.8040745128432556,2.234627422536242
+diff_career_ambition,construite,-0.49560132552066355,0.6092044669391091
+diff_emotional_expressiveness,construite,-0.3914760355071369,0.6760582516937198
+avg_trait_diff,construite,-0.3472570046821254,0.7066236993197795
+same_career_field,construite,0.20104103979871354,1.222674949127491
+diff_spontaneity,construite,-0.19743042936228594,0.8208372448118955
+b_career_field_Creative Arts,catégorielle (one-hot),-0.16588441332909518,0.8471441471023169
+big5_harmony_score,construite,0.15987887945497528,1.1733687433229874
+same_location,construite,0.1453472767696645,1.1564411056735124
+a_career_field_Creative Arts,catégorielle (one-hot),-0.13852348237413983,0.8706428062689497
+b_career_field_Entrepreneurship,catégorielle (one-hot),0.1178037492148298,1.1250233029945953
+age_diff,construite,-0.11702211418502335,0.8895655209293742
+b_career_field_Law,catégorielle (one-hot),-0.11287585210335681,0.8932615497750709
+a_career_field_Tech,catégorielle (one-hot),0.09609286537137529,1.100861291139859
+a_career_field_Law,catégorielle (one-hot),-0.09126991994948871,0.9127713024616302
+diff_agreeableness,construite,0.08705021586641568,1.0909514614156635
+diff_chronotype,construite,-0.08632715069714061,0.9172940887263051
+a_career_field_Entrepreneurship,catégorielle (one-hot),0.08598651439873108,1.0897916317106213
+a_career_field_Healthcare,catégorielle (one-hot),-0.08421742445996698,0.9192313709815353
+diff_conscientiousness,construite,0.07360328235629839,1.0763797019629768
+a_career_field_Science,catégorielle (one-hot),0.07109563483515695,1.073683902541576
+personality_similarity_index,construite,0.07094072853060548,1.0735175950173514
+personality_euclidean_dist,construite,-0.06197895869631954,0.9399026633603956
+a_location_Rural,catégorielle (one-hot),-0.060978302810329454,0.940843653217746
+a_career_field_Education,catégorielle (one-hot),-0.058831421982507764,0.9428657021912523
+b_career_field_Science,catégorielle (one-hot),0.05783204004438292,1.059537020973374
+education_diff,construite,-0.05646567749225753,0.9450989221035448
+b_love_language_Physical Touch,catégorielle (one-hot),-0.0528322806415715,0.948539087509146
+b_career_field_Engineering,catégorielle (one-hot),0.05147363895310134,1.052821432451168
+a_career_field_Engineering,catégorielle (one-hot),0.0482647488017849,1.0494484587707777
+b_location_Suburban,catégorielle (one-hot),-0.04402071871935139,0.9569341308179617
+diff_openness,construite,-0.03841271364106829,0.9623156981074572
+b_career_field_Tech,catégorielle (one-hot),0.03789827740334394,1.0386255758142082
+b_location_Rural,catégorielle (one-hot),-0.03742281573738034,0.9632687640408589
+b_career_field_Healthcare,catégorielle (one-hot),-0.03726445211443458,0.9634213228517671
+a_love_language_Words of Affirmation,catégorielle (one-hot),-0.03698544309391491,0.9636901635941558
+a_love_language_Physical Touch,catégorielle (one-hot),-0.035849381257625455,0.9647855973334382
+a_career_field_Marketing,catégorielle (one-hot),-0.03442985313788015,0.9661561101289653
+b_love_language_Words of Affirmation,catégorielle (one-hot),-0.03408750574051326,0.9664869277827685
+a_love_language_Quality Time,catégorielle (one-hot),-0.02522630840330245,0.9750892161730217
+a_location_Urban,catégorielle (one-hot),-0.02484274742162771,0.9754632940862571
+b_career_field_Marketing,catégorielle (one-hot),-0.023097119391776295,0.977167577243954
+b_location_Urban,catégorielle (one-hot),-0.021077637683559084,0.9791429432284519
+a_extraversion,numérique brute,0.020632411941626974,1.020846731592209
+b_education,numérique brute,0.020445665661765536,1.0206561100622602
+b_love_language_Receiving Gifts,catégorielle (one-hot),-0.0185442701125224,0.9816266169090748
+a_location_Suburban,catégorielle (one-hot),-0.016700121908335856,0.9834385520968257
+b_agreeableness,numérique brute,-0.015675244693084334,0.9844469725267626
+b_conscientiousness,numérique brute,0.015439033805594967,1.0155588314137731
+b_career_field_Finance,catégorielle (one-hot),-0.015076582638478345,0.9850365000202493
+a_education,numérique brute,0.014950463570212916,1.0150627807841188
+b_openness,numérique brute,-0.013907850730855938,0.9861884166177167
+b_career_field_Education,catégorielle (one-hot),-0.013330458178812109,0.9867579988848391
+b_career_ambition,numérique brute,-0.012891073386042277,0.9871916606088995
+diff_extraversion,construite,-0.012315959420915876,0.9877595716102926
+a_conscientiousness,numérique brute,-0.012058875925272645,0.9880135409380798
+a_agreeableness,numérique brute,0.010626432500823554,1.0106830935584512
+a_love_language_Receiving Gifts,catégorielle (one-hot),-0.010188978238955955,0.9898627535527073
+a_openness,numérique brute,0.0098100576549907,1.009858334006044
+b_age,numérique brute,-0.009612022042837244,0.9904340257853568
+b_spontaneity,numérique brute,0.008794594783674895,1.0088333808515835
+a_chronotype,numérique brute,0.008758413405632937,1.0087968805299694
+a_age,numérique brute,0.007515781544278777,1.0075440959208293
+b_emotional_expressiveness,numérique brute,-0.007300564338243156,0.9927260200485706
+a_spontaneity,numérique brute,-0.0062024745426661285,0.993816721095237
+a_career_ambition,numérique brute,0.006127537215721337,1.0061463489755111
+a_love_language_Acts of Service,catégorielle (one-hot),0.005728938853504091,1.005745380606635
+b_love_language_Acts of Service,catégorielle (one-hot),0.005629756960535404,1.0056456338225612
+b_chronotype,numérique brute,0.004933188194462729,1.0049453764013412
+a_career_field_Finance,catégorielle (one-hot),0.0033111663566404753,1.0033166543234797
+a_emotional_expressiveness,numérique brute,-0.002992439867064006,0.997012033018389
+b_love_language_Quality Time,catégorielle (one-hot),-0.0026868726062219844,0.9973167338052665
+b_extraversion,numérique brute,-0.000768516149813092,0.9992317790830879
