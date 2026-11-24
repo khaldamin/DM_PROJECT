@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Inference - Cupid</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #263247;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .upload-box {
+            border: 2px dashed #9aadd0;
+            border-radius: 10px;
+            padding: 35px;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            margin: 20px 0;
+        }
+
+        button {
+            background: #3155a5;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #233f82; }
+
+        .error {
+            background: #fdeaea;
+            color: #a12626;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e8edf4;
+            text-align: center;
+        }
+
+        th { background: #f0f4ff; }
+
+        .table-container { overflow-x: auto; }
+
+        .compatible { color: #16834a; font-weight: bold; }
+        .not-compatible { color: #bd3838; font-weight: bold; }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3155a5;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="/" class="back">← Retour au Dashboard</a>
+
+    <h1>Batch Inference</h1>
+    <p>Importez un fichier CSV pour prédire la compatibilité de plusieurs couples.</p>
+
+    <div class="card">
+        <h2>Importer un fichier CSV</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            <div class="upload-box">
+                <p>Sélectionnez votre fichier CSV</p>
+                <input type="file" name="file" accept=".csv" required>
+                <br>
+                <button type="submit">Lancer les prédictions</button>
+            </div>
+        </form>
+    </div>
+
+    {% if error %}
+    <div class="card">
+        <div class="error">{{ error }}</div>
+    </div>
+    {% endif %}
+
+    {% if predictions is not none %}
+    <div class="card">
+        <h2>Résultats des prédictions</h2>
+
+        <p>Nombre de couples analysés : {{ predictions|length }}</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Couple</th>
+                        <th>Prédiction</th>
+                        <th>Probabilité de compatibilité</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in predictions.to_dict(orient='records') %}
+                    <tr>
+                        <td>{{ row.get('pair_id', loop.index) }}</td>
+
+                        <td class="{% if row.Predicted_Compatibility == 1 %}compatible{% else %}not-compatible{% endif %}">
+                            {{ row.Predicted_Label }}
+                        </td>
+
+                        <td>
+                            {{ "%.2f"|format(row.Compatibility_Probability * 100) }}%
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <form method="POST" action="/download-predictions">
+            <input
+                type="hidden"
+                name="predictions_json"
+                value="{{ predictions.to_json(orient='records')|e }}"
+            >
+            <br>
+            <button type="submit">Télécharger les résultats CSV</button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
