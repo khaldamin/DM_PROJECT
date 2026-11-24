@@ -16,7 +16,8 @@ from src.models import (
     CupidLogisticRegression,
     CupidDecisionTree,
     CupidRandomForest,
-    CupidXGBoost
+    CupidXGBoost,
+    CupidSVM
 )
 from src.evaluation.metrics import evaluate_classification_model, print_evaluation_summary
 from src.evaluation.tuning import tune_hyperparameters
@@ -72,7 +73,8 @@ def main():
         "Logistic Regression": CupidLogisticRegression(max_iter=1000, random_state=42),
         "Decision Tree": CupidDecisionTree(max_depth=12, min_samples_split=10, random_state=42),
         "Random Forest": CupidRandomForest(n_estimators=100, max_depth=14, n_jobs=-1, random_state=42),
-        "XGBoost": CupidXGBoost(n_estimators=150, max_depth=6, learning_rate=0.08, n_jobs=-1, random_state=42)
+        "XGBoost": CupidXGBoost(n_estimators=150, max_depth=6, learning_rate=0.08, n_jobs=-1, random_state=42),
+        "SVM": CupidSVM(C=1.0, kernel='rbf', gamma='scale', probability=True, random_state=42)
     }
 
     results = []

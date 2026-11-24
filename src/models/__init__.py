@@ -3,6 +3,7 @@ from .logistic_regression import CupidLogisticRegression
 from .decision_tree import CupidDecisionTree
 from .random_forest import CupidRandomForest
 from .xgboost_model import CupidXGBoost
+from .svm_model import CupidSVM
 from .clustering import (
     CupidKMeansClusterer,
     CupidHierarchicalClusterer,
@@ -22,6 +23,7 @@ __all__ = [
     "CupidLogisticRegression",
     "CupidDecisionTree",
     "CupidRandomForest",
+    "CupidSVM",
     "CupidXGBoost",
     "CupidKMeansClusterer",
     "CupidHierarchicalClusterer",
