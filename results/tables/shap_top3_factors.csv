@@ -1,0 +1,4 @@
+rang,feature,mean_abs_shap,part_du_total_%,corr_valeur_vs_shap,sens_global,contrib_moy_positive,contrib_moy_negative,%_lignes_positives
+1,same_love_language,0.6251,17.7,0.998,valeur élevée → compatibilité ↑,1.5978,-0.3895,19.5
+2,avg_trait_diff,0.5144,14.6,-0.991,valeur élevée → compatibilité ↓,0.4742,-0.5577,51.8
+3,diff_career_ambition,0.3489,9.9,-0.955,valeur élevée → compatibilité ↓,0.3427,-0.3551,49.4
