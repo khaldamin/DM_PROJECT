@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exploratory Data Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #263445;
+        }
+
+        .graphs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .graph {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            min-width: 0;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        @media (max-width: 850px) {
+            .graphs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="/" class="back">← Retour à l'accueil</a>
+
+<h1>Exploratory Data Analysis</h1>
+
+<div class="graphs">
+    {% for graph in graph_html %}
+        <div class="graph">
+            {{ graph | safe }}
+        </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
